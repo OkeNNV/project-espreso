@@ -1,3 +1,110 @@
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 
-# Create your models here.
+import uuid
+
+
+class User(AbstractUser):
+    """
+    Кастомна модель користувача, яка розширює базовий `AbstractUser` з Django.
+
+    Використовується для автентифікації, розмежування прав доступу через ролі,
+    управління статусом акаунта та підтвердження пошти за допомогою токена
+
+    """
+
+    class Role(models.TextChoices):
+        CUSTOMER = 'CUSTOMER', 'Customer'
+        MODERATOR = 'MODERATOR', 'Mod'
+        ADMIN = 'ADMIN', 'Admin'
+
+    class Status(models.TextChoices):
+        PENDING = 'PENDING'
+        ACTIVE = 'ACTIVE'
+        BLOCKED = 'BLOCKED'
+
+    email = models.EmailField(unique=True)
+    role = models.CharField(choices=Role, max_length=10, default=Role.CUSTOMER)
+    status = models.CharField(choices=Status, max_length=10, default=Status.PENDING)
+
+    email_verification_token = models.UUIDField(
+        default=uuid.uuid4,
+        editable=False,
+        null=True,
+        blank=True
+    )
+    email_token_created_at = models.DateTimeField(
+        null=True,
+        blank=True
+    )
+
+    @property
+    def is_moderator(self) -> bool:
+        return self.role in (self.Role.MODERATOR, self.Role.ADMIN)
+
+    @property
+    def is_admin(self) -> bool:
+        return self.role == self.Role.ADMIN
+
+    def __str__(self):
+        return f'{self.username} : {self.get_role_display()}'
+
+
+class Category(models.Model):
+    """
+        Категорія товарів (наприклад: "Кава", "Десерти", "Сезонне меню").
+    """
+    name = models.CharField(max_length=50)
+    slug = models.CharField(max_length=20)
+
+    def __str__(self):
+        return self.name
+
+
+class Product(models.Model):
+    """
+        Товар кав'ярні із зазначенням ціни в копійках, опису та прив'язкою до категорії.
+    """
+    name = models.CharField(max_length=50)
+    price = models.PositiveIntegerField(default=0)
+    category = models.ForeignKey(Category, on_delete=models.PROTECT, related_name="products")
+    description = models.CharField(max_length=255, null=True, blank=True)
+    details = models.CharField(max_length=255, null=True, blank=True)
+    is_available = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.name
+
+
+class Order(models.Model):
+    """
+        Замовлення клієнта з фіксацією статусу, дати створення та підсумкової суми.
+    """
+
+    class Status(models.TextChoices):
+        NEW = 'NEW'
+        IN_PROGRESS = 'IN_PROGRESS'
+        READY = 'READY'
+        COMPLETED = 'COMPLETED'
+        CANCELED = 'CANCELED'
+
+    user = models.ForeignKey(User, on_delete=models.PROTECT, related_name='orders')
+    created_at = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(choices=Status, default=Status.NEW, max_length=10)
+    total_price = models.PositiveIntegerField(default=0)
+
+    def __str__(self):
+        return f"Order #{self.id} by {self.user.username} [{self.get_status_display()}]"
+
+
+class OrderItem(models.Model):
+    """
+        Окрема позиція в замовленні з фіксацією ціни товару на момент купівлі.
+    """
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='items')
+    product = models.ForeignKey(Product, on_delete=models.PROTECT, related_name='order_items')
+    quantity = models.PositiveSmallIntegerField(default=1)
+    price = models.PositiveIntegerField()
+
+    def __str__(self):
+        return f"{self.quantity} x {self.product.name} (Order #{self.order.id})"
