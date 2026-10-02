@@ -24,8 +24,8 @@ class User(AbstractUser):
         BLOCKED = 'BLOCKED'
 
     email = models.EmailField(unique=True)
-    role = models.CharField(choices=Role, max_length=10, default=Role.CUSTOMER)
-    status = models.CharField(choices=Status, max_length=10, default=Status.PENDING)
+    role = models.CharField(choices=Role, max_length=20, default=Role.CUSTOMER)
+    status = models.CharField(choices=Status, max_length=20, default=Status.PENDING)
 
     email_verification_token = models.UUIDField(
         default=uuid.uuid4,
@@ -40,10 +40,12 @@ class User(AbstractUser):
 
     @property
     def is_moderator(self) -> bool:
+        """Перевірка прав редагування контенту на сторінці доступній для модераторів і вище"""
         return self.role in (self.Role.MODERATOR, self.Role.ADMIN)
 
     @property
     def is_admin(self) -> bool:
+        """Перевірка прав редагування на сторінці доступній лише адміністраторам"""
         return self.role == self.Role.ADMIN
 
     def __str__(self):
@@ -72,6 +74,12 @@ class Product(models.Model):
     details = models.CharField(max_length=255, null=True, blank=True)
     is_available = models.BooleanField(default=False)
 
+    class Meta:
+        indexes = [
+            models.Index(fields=['name']),
+            models.Index(fields=['category', 'is_available']),
+        ]
+
     def __str__(self):
         return self.name
 
@@ -90,7 +98,7 @@ class Order(models.Model):
 
     user = models.ForeignKey(User, on_delete=models.PROTECT, related_name='orders')
     created_at = models.DateTimeField(auto_now_add=True)
-    status = models.CharField(choices=Status, default=Status.NEW, max_length=10)
+    status = models.CharField(choices=Status, default=Status.NEW, max_length=20)
     total_price = models.PositiveIntegerField(default=0)
 
     def __str__(self):
@@ -108,3 +116,53 @@ class OrderItem(models.Model):
 
     def __str__(self):
         return f"{self.quantity} x {self.product.name} (Order #{self.order.id})"
+
+
+class Cart(models.Model):
+    """
+    Тимчасовий кошик користувача для накопичення товарів перед оформленням замовлення.
+    """
+    user = models.OneToOneField(
+        'User',
+        on_delete=models.CASCADE,
+        related_name='cart',
+        verbose_name="Користувач"
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"Cart of {self.user.username}"
+
+    @property
+    def total_price(self) -> int:
+        """Динамічний підрахунок суми кошика в копійках на основі актуальних цін."""
+        return sum(item.get_cost for item in self.items.all())
+
+
+class CartItem(models.Model):
+    """
+    Позиція в кошику із зазначенням обраної кількості товару.
+    """
+    cart = models.ForeignKey(
+        Cart,
+        on_delete=models.CASCADE,
+        related_name='items'
+    )
+    product = models.ForeignKey(
+        Product,
+        on_delete=models.CASCADE,
+        related_name='cart_items'
+    )
+    quantity = models.PositiveSmallIntegerField(default=1)
+
+    class Meta:
+        unique_together = ('cart', 'product')
+
+    @property
+    def get_cost(self) -> int:
+        """Вартість позиції на основі поточної ціни товару."""
+        return self.product.price * self.quantity
+
+    def __str__(self):
+        return f"{self.quantity} x {self.product.name} in Cart #{self.cart.id}"
