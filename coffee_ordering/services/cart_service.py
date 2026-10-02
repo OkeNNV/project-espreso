@@ -46,6 +46,7 @@ class CartItemNotFoundError(CartException):
 
 
 class CartService:
+    """"""
     @staticmethod
     def get_or_create_cart(user: User) -> Cart:
         """Отримує кошик користувача, або створює його у разі відсутності"""

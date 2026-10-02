@@ -89,6 +89,7 @@ class Order(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     status = models.CharField(choices=Status, default=Status.NEW, max_length=20)
     total_price = models.PositiveIntegerField(default=0)
+    handler = models.ForeignKey(User, on_delete=models.PROTECT, related_name='orders')
 
     def __str__(self):
         return f"Order #{self.id} by {self.user.username} [{self.get_status_display()}]"

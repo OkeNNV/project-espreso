@@ -15,7 +15,7 @@ class UserService:
     @staticmethod
     def get_uid(pk: int) -> bytes:
         """
-                Закодовує первинний ключ (pk) у формат base64 (безпечний для URL).
+            Закодовує первинний ключ (pk) у формат base64 (безпечний для URL).
         """
         return urlsafe_b64decode(str(pk).encode('utf-8'))
 
