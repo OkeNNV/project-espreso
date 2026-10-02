@@ -6,11 +6,10 @@ import uuid
 
 class User(AbstractUser):
     """
-    Кастомна модель користувача, яка розширює базовий `AbstractUser` з Django.
+        Кастомна модель користувача, яка розширює базовий `AbstractUser` з Django.
 
-    Використовується для автентифікації, розмежування прав доступу через ролі,
-    управління статусом акаунта та підтвердження пошти за допомогою токена
-
+        Використовується для автентифікації, розмежування прав доступу через ролі,
+        управління статусом акаунта та підтвердження пошти за допомогою токена
     """
 
     class Role(models.TextChoices):
@@ -26,17 +25,6 @@ class User(AbstractUser):
     email = models.EmailField(unique=True)
     role = models.CharField(choices=Role, max_length=20, default=Role.CUSTOMER)
     status = models.CharField(choices=Status, max_length=20, default=Status.PENDING)
-
-    email_verification_token = models.UUIDField(
-        default=uuid.uuid4,
-        editable=False,
-        null=True,
-        blank=True
-    )
-    email_token_created_at = models.DateTimeField(
-        null=True,
-        blank=True
-    )
 
     @property
     def is_moderator(self) -> bool:
@@ -73,6 +61,7 @@ class Product(models.Model):
     description = models.CharField(max_length=255, null=True, blank=True)
     details = models.CharField(max_length=255, null=True, blank=True)
     is_available = models.BooleanField(default=False)
+    quantity = models.PositiveSmallIntegerField(default=0)
 
     class Meta:
         indexes = [
@@ -120,13 +109,12 @@ class OrderItem(models.Model):
 
 class Cart(models.Model):
     """
-    Тимчасовий кошик користувача для накопичення товарів перед оформленням замовлення.
+        Тимчасовий кошик користувача для накопичення товарів перед оформленням замовлення.
     """
     user = models.OneToOneField(
         'User',
         on_delete=models.CASCADE,
         related_name='cart',
-        verbose_name="Користувач"
     )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -142,7 +130,7 @@ class Cart(models.Model):
 
 class CartItem(models.Model):
     """
-    Позиція в кошику із зазначенням обраної кількості товару.
+        Позиція в кошику із зазначенням обраної кількості товару.
     """
     cart = models.ForeignKey(
         Cart,
