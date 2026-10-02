@@ -1,4 +1,5 @@
 from django.db import transaction
+from django.db.models import QuerySet
 
 from coffee_ordering.models import (
     User,
@@ -39,7 +40,19 @@ class OrderCannotBeCompletedError(OrderException):
 
 
 class OrderService:
-    """"""
+    """
+        Сервіс для управління життєвим циклом замовлень кав'ярні.
+
+        Містить бізнес-логіку створення замовлень (через кошик або оператора),
+        зміни їх статусів (прийняття в роботу, готовність, завершення, скасування),
+        а також формування списків замовлень для каси/кухні та клієнта.
+
+        Основні задачі:
+            - Створення замовлень клієнтом або працівником по телефону.
+            - Призначення відповідального працівника за замовлення.
+            - Скасування замовлення з автоматичним поверненням товарів на склад.
+            - Вибірка активних замовлень для табло/екрана.
+    """
 
     @classmethod
     def get_order_by_id(cls, order_id: int) -> Order:
@@ -60,7 +73,7 @@ class OrderService:
 
     @classmethod
     @transaction.atomic
-    def accept_order(cls, order_id: int, handler: User, new_status: str) -> Order:
+    def accept_order(cls, order_id: int, handler: User) -> Order:
 
         order = cls.get_order_by_id(order_id)
 
@@ -100,7 +113,7 @@ class OrderService:
         return order
 
     @classmethod
-    def complete_order(cls, order_id: int, handler: User) -> Order:
+    def complete_order(cls, order_id: int) -> Order:
         """
 
         """
@@ -113,9 +126,44 @@ class OrderService:
 
         order.status = Order.Status.COMPLETED
 
-        if handler and not order.handler:
-            order.handler = handler
-
         order.save(update_fields=['status', 'handler'])
 
+        return order
+
+    @classmethod
+    def mark_as_ready(cls, order_id: int, staff_user: User = None) -> Order:
+        """Переводить замовлення у статус READY """
+        order = cls.get_order_by_id(order_id)
+        if order.status != Order.Status.IN_PROGRESS:
+            raise OrderException(
+                'Тільки замовлення в процесі приготування можна позначити як готові.'
+            )
+
+        order.status = Order.Status.READY
+        if staff_user and not order.handler:
+            order.handler = staff_user
+
+        order.save(update_fields=['status', 'handler'])
+        return order
+
+    @classmethod
+    def get_active_orders(cls) -> QuerySet[Order]:
+        """Повертає список активних замовлень для працівників закладу."""
+        return (
+            Order.objects.filter(
+                status__in=[Order.Status.NEW, Order.Status.IN_PROGRESS, Order.Status.READY]
+            )
+            .select_related('user', 'handler')
+            .prefetch_related('items__product')
+            .order_order_by('created_at')
+        )
+
+    @classmethod
+    @transaction.atomic
+    def create_order_by_staff(cls, customer: User, staff_user: User) -> Order:
+        """Оформлення замовлення працівником кав'ярні."""
+        order = CartService.checkout(customer)
+        order.handler = staff_user
+        order.status = Order.Status.IN_PROGRESS
+        order.save(update_fields=['handler', 'status'])
         return order
