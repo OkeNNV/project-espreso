@@ -131,19 +131,18 @@ class OrderService:
         return order
 
     @classmethod
-    def mark_as_ready(cls, order_id: int, staff_user: User = None) -> Order:
-        """Переводить замовлення у статус READY """
+    def mark_as_ready(cls, order_id: int) -> Order:
+        """Переводить замовлення у статус READY"""
         order = cls.get_order_by_id(order_id)
+
         if order.status != Order.Status.IN_PROGRESS:
             raise OrderException(
                 'Тільки замовлення в процесі приготування можна позначити як готові.'
             )
 
         order.status = Order.Status.READY
-        if staff_user and not order.handler:
-            order.handler = staff_user
+        order.save(update_fields=['status'])
 
-        order.save(update_fields=['status', 'handler'])
         return order
 
     @classmethod
