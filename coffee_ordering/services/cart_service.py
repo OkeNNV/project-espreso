@@ -76,7 +76,7 @@ class CartService:
             raise ProductUnavailableError(product.name)
 
         cart = cls.get_or_create_cart(user)
-        existing_item = CartItem.object.filter(cart=cart, product=product).first()
+        existing_item = CartItem.objects.filter(cart=cart, product=product).first()
         current_quantity_in_cart = existing_item.quantity if existing_item else 0
         new_quantity = current_quantity_in_cart + quantity
 

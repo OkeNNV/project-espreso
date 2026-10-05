@@ -32,7 +32,7 @@ class CatalogService:
         try:
             return Product.objects.select_related('category').get(id=product_id)
         except Product.DoesNotExist:
-            raise ProductNotFoundError(f"Товар з ID #{product_id} не знайдено.")
+            raise ProductNotFoundError(f'Товар з ID #{product_id} не знайдено.')
 
     @classmethod
     def get_available_products(cls, category_slug: str = None) -> 'QuerySet[Product]':
@@ -68,7 +68,7 @@ class CatalogService:
     def update_stock_quantity(cls, product_id: int, quantity: int) -> Product:
         """Оновлення залишків товару на складі працівником."""
         if quantity < 0:
-            raise CatalogException("Кількість товару не може бути від'ємною.")
+            raise CatalogException('Кількість товару не може бути від`ємною.')
 
         product = cls.get_product_by_id(product_id)
         product.quantity = quantity

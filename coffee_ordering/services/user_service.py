@@ -1,7 +1,7 @@
-from base64 import urlsafe_b64decode
-
 from django.contrib.auth import get_user_model
 from django.db import transaction
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 
 from coffee_ordering.services.user_activation_token_service import UserActivationTokenService
 
@@ -13,11 +13,11 @@ class UserService:
         self.token_service = token_service
 
     @staticmethod
-    def get_uid(pk: int) -> bytes:
+    def get_uid(pk: int) -> str:
         """
             Закодовує первинний ключ (pk) у формат base64 (безпечний для URL).
         """
-        return urlsafe_b64decode(str(pk).encode('utf-8'))
+        return urlsafe_base64_encode(force_bytes(pk))
 
     def get_activation_link(self, url: str, user: User) -> str:
         """
@@ -34,16 +34,16 @@ class UserService:
         """
             Декодує base64 UID назад в integer PK.
         """
-        return int(urlsafe_b64decode(uidb64.encode('utf-8')).decode('utf-8'))
+        return int(urlsafe_base64_decode(uidb64).decode('utf-8'))
 
     @staticmethod
-    def create_pending_user(email: str, password: str, **extra_fields) -> User:
+    def create_pending_user(username: str, email: str, password: str, **extra_fields) -> User:
         """
             Створює нового користувача, очікує на підтвердження email адреси
         """
         with transaction.atomic():
             user = User(
-                username=email,
+                username=username,
                 email=email,
                 is_active=False,
                 status=User.Status.PENDING,

@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.templatetags.static import static
 
 
 class User(AbstractUser):
@@ -55,11 +56,21 @@ class Product(models.Model):
     """
     name = models.CharField(max_length=50)
     price = models.PositiveIntegerField(default=0)
-    category = models.ForeignKey(Category, on_delete=models.PROTECT, related_name="products")
+    category = models.ForeignKey(Category, on_delete=models.PROTECT, related_name='products')
     description = models.CharField(max_length=255, null=True, blank=True)
     details = models.CharField(max_length=255, null=True, blank=True)
     is_available = models.BooleanField(default=False)
     quantity = models.PositiveSmallIntegerField(default=0)
+    # image = models.CharField(max_length=500, blank=True, default='')
+    #
+    # @property
+    # def image_url(self) -> str | None:
+    #     """Готове посилання для <img>: зовнішнє як є, статичний шлях через static()."""
+    #     if not self.image:
+    #         return None
+    #     if self.image.startswith(('http://', 'https://')):
+    #         return self.image
+    #     return static(self.image)
 
     class Meta:
         indexes = [
@@ -87,7 +98,9 @@ class Order(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     status = models.CharField(choices=Status, default=Status.NEW, max_length=20)
     total_price = models.PositiveIntegerField(default=0)
-    handler = models.ForeignKey(User, on_delete=models.PROTECT, related_name='orders')
+    handler = models.ForeignKey(
+        User, on_delete=models.PROTECT, null=True, blank=True, related_name='handled_orders'
+        )
 
     def __str__(self):
         return f"Order #{self.id} by {self.user.username} [{self.get_status_display()}]"
@@ -119,11 +132,11 @@ class Cart(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"Cart of {self.user.username}"
+        return f'Cart of {self.user.username}'
 
     @property
     def total_price(self) -> int:
-        """Динамічний підрахунок суми кошика в копійках на основі актуальних цін."""
+        """Підрахунок суми кошика в копійках на основі актуальних цін."""
         return sum(item.get_cost for item in self.items.all())
 
 
@@ -148,8 +161,8 @@ class CartItem(models.Model):
 
     @property
     def get_cost(self) -> int:
-        """Вартість позиції на основі поточної ціни товару."""
+        """Вартість позиції на основі ціни товару."""
         return self.product.price * self.quantity
 
     def __str__(self):
-        return f"{self.quantity} x {self.product.name} in Cart #{self.cart.id}"
+        return f'{self.quantity} x {self.product.name} in Cart #{self.cart.id}'

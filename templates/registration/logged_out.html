@@ -1,0 +1,16 @@
+{% extends "coffee_ordering/public/index.html" %}
+{% block title %}Вихід{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-5">
+    <div class="card shadow-sm text-center">
+      <div class="card-body">
+        <h1 class="h4">Ви вийшли з акаунта</h1>
+        <p class="text-muted">Дякуємо, що завітали!</p>
+        <a href="{% url 'login' %}" class="btn btn-primary">Увійти знову</a>
+        <a href="{% url 'coffee_ordering:menu' %}" class="btn btn-outline-secondary">До меню</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

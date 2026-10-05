@@ -1,0 +1,16 @@
+{% extends "coffee_ordering/public/index.html" %}
+{% block title %}Підтвердіть email{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-5">
+    <div class="card shadow-sm text-center">
+      <div class="card-body">
+        <h1 class="h4">Майже готово!</h1>
+        <p>Ми надіслали лист на <strong>{{ email }}</strong>.</p>
+        <p class="text-muted">Перейдіть за посиланням у листі, щоб активувати акаунт.</p>
+        <a href="{% url 'login' %}" class="btn btn-outline-primary">До входу</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% if order.status == 'NEW' %}
+  <span class="badge bg-primary">{{ order.get_status_display }}</span>
+{% elif order.status == 'IN_PROGRESS' %}
+  <span class="badge bg-warning text-dark">{{ order.get_status_display }}</span>
+{% elif order.status == 'READY' %}
+  <span class="badge bg-success">{{ order.get_status_display }}</span>
+{% elif order.status == 'COMPLETED' %}
+  <span class="badge bg-secondary">{{ order.get_status_display }}</span>
+{% else %}
+  <span class="badge bg-danger">{{ order.get_status_display }}</span>
+{% endif %}
