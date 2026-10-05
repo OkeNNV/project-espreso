@@ -4,10 +4,6 @@ from django.contrib.auth import password_validation
 from coffee_ordering.models import User
 
 
-class cartForm():
-    ...
-
-
 class RegisterForm(forms.Form):
     username = forms.CharField(label="Ім'я користувача", max_length=150)
     email = forms.EmailField(label='Email')

@@ -2,6 +2,9 @@ from django.contrib.auth import get_user_model
 from django.db import transaction
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
+from django.conf import settings
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
 
 from coffee_ordering.services.user_activation_token_service import UserActivationTokenService
 
@@ -105,3 +108,15 @@ class UserService:
 
             user.save(update_fields=['status', 'is_active'])
             return user
+
+    def send_activation_email(self, user: User, activation_url: str) -> None:
+        message = render_to_string(
+            "registration/activation_email.txt",
+            {"user": user, "link": self.get_activation_link(activation_url, user)},
+        )
+        send_mail(
+            subject="Підтвердження реєстрації",
+            message=message,
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            recipient_list=[user.email],
+        )

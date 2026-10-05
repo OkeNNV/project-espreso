@@ -102,19 +102,12 @@ def register(request):
             email=form.cleaned_data['email'],
             password=form.cleaned_data['password1'],
         )
-        link = user_service.get_activation_link(
-            request.build_absolute_uri(reverse('coffee_ordering:activate')), user
-        )
-        send_mail(
-            subject='Підтвердження реєстрації',
-            message=f'Щоб активувати акаунт, перейдіть за посиланням:\n{link}',
-            from_email=None,
-            recipient_list=[user.email],
+        user_service.send_activation_email(
+            user, request.build_absolute_uri(reverse('coffee_ordering:activate'))
         )
         return render(request, 'registration/register_done.html', {'email': user.email})
 
     return render(request, 'registration/register.html', {'form': form})
-
 
 @require_GET
 def activate(request):
