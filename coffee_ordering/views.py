@@ -360,24 +360,24 @@ def staff_order_cancel(request, order_id: int):
     )
 
 
-@moderator_required
-@require_POST
-def staff_order_create(request):
-    """Оформлення замовлення працівником з кошика обраного клієнта (напр. телефонне)."""
-    customer_id = _parse_int(request.POST.get('customer_id'))
-    customer = User.objects.filter(id=customer_id).first() if customer_id else None
-
-    if customer is None:
-        messages.error(request, 'Клієнта не знайдено.')
-        return redirect('coffee_ordering:staff_active_orders')
-
-    try:
-        order = OrderService.create_order_by_staff(customer, request.user)
-        messages.success(request, f'Замовлення #{order.id} створено.')
-    except (OrderException, CartException) as e:
-        messages.error(request, str(e))
-
-    return redirect('coffee_ordering:staff_active_orders')
+# @moderator_required
+# @require_POST
+# def staff_order_create(request):
+#     """Оформлення замовлення працівником з кошика обраного клієнта (напр. телефонне)."""
+#     customer_id = _parse_int(request.POST.get('customer_id'))
+#     customer = User.objects.filter(id=customer_id).first() if customer_id else None
+#
+#     if customer is None:
+#         messages.error(request, 'Клієнта не знайдено.')
+#         return redirect('coffee_ordering:staff_active_orders')
+#
+#     try:
+#         order = OrderService.create_order_by_staff(customer, request.user)
+#         messages.success(request, f'Замовлення #{order.id} створено.')
+#     except (OrderException, CartException) as e:
+#         messages.error(request, str(e))
+#
+#     return redirect('coffee_ordering:staff_active_orders')
 
 
 @moderator_required

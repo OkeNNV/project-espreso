@@ -1,10 +1,69 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Title</title>
-</head>
-<body>
+{% extends "coffee_ordering/public/index.html" %}
+{% block title %}Активні замовлення{% endblock %}
+{% block content %}
+  <h1 class="mb-3">Активні замовлення</h1>
 
-</body>
-</html>
+  <div class="table-responsive">
+    <table class="table table-striped align-middle bg-white">
+      <thead>
+      <tr>
+        <th>#</th>
+        <th>Клієнт</th>
+        <th>Статус</th>
+        <th>Склад</th>
+        <th>Працівник</th>
+        <th>Дії</th>
+      </tr>
+      </thead>
+      <tbody>
+      {% for order in orders %}
+        <tr>
+          <td><a href="{% url 'coffee_ordering:order_detail' order.id %}">{{ order.id }}</a></td>
+          <td>{{ order.user.username }}</td>
+          <td>{% include "coffee_ordering/public/_status_badge.html" %}</td>
+          <td class="small">
+            {% for item in order.items.all %}{{ item.quantity }} × {{ item.product.name }}<br>{% endfor %}
+          </td>
+          <td>{{ order.handler.username|default:"—" }}</td>
+          <td>
+            <div class="d-flex gap-1">
+              {% if order.status == 'NEW' %}
+                <form method="post" action="{% url 'coffee_ordering:staff_order_accept' order.id %}">
+                  {% csrf_token %}
+                  <button class="btn btn-sm btn-primary">Прийняти</button>
+                </form>
+              {% elif order.status == 'IN_PROGRESS' %}
+                <form method="post" action="{% url 'coffee_ordering:staff_order_ready' order.id %}">
+                  {% csrf_token %}
+                  <button class="btn btn-sm btn-warning">Готово</button>
+                </form>
+              {% elif order.status == 'READY' %}
+                <form method="post" action="{% url 'coffee_ordering:staff_order_complete' order.id %}">
+                  {% csrf_token %}
+                  <button class="btn btn-sm btn-success">Видати</button>
+                </form>
+              {% endif %}
+              <form method="post" action="{% url 'coffee_ordering:staff_order_cancel' order.id %}">
+                {% csrf_token %}
+                <button class="btn btn-sm btn-outline-danger">Скасувати</button>
+              </form>
+            </div>
+          </td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="6" class="text-center text-muted">Активних замовлень немає.</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card shadow-sm mt-4" style="max-width: 420px">
+    <div class="card-body">
+
+        <button class="btn btn-primary">Створити</button>
+
+    </div>
+  </div>
+{% endblock %}
