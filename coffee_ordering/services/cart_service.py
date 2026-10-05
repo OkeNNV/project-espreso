@@ -118,10 +118,9 @@ class CartService:
             return None
 
         if not product.is_available:
-            raise ProductUnavailableError
-
+            raise ProductUnavailableError(product.name)
         if quantity > product.quantity:
-            raise InsufficientStockError
+            raise InsufficientStockError(product.name, product.quantity)
 
         cart = cls.get_or_create_cart(user)
 
@@ -131,7 +130,7 @@ class CartService:
             raise CartItemNotFoundError(f"'{product}' не знайдено у кошику.")
 
         cart_item.quantity = quantity
-        cart_item.save(update_fields="quantity")
+        cart_item.save(update_fields=['quantity'])
 
         return cart_item
 

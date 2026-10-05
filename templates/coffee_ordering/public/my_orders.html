@@ -12,8 +12,8 @@
         <span class="text-muted ms-2">{{ order.created_at|date:"d.m.Y H:i" }}</span>
       </span>
       <span>
-        {% include "coffee_ordering/public/_status_badge.html" %}
-        <span class="ms-3">{{ order.total_price }} коп.</span>
+        {% include "coffee_ordering/public/../../includes/_status_badge.html" %}
+        <span class="ms-3">{{ order.total_price_uah }} UAH.</span>
       </span>
     </a>
   {% empty %}

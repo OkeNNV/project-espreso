@@ -1,6 +1,12 @@
+from decimal import Decimal
+
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.templatetags.static import static
+
+
+def conver_to_uah(value: int) -> Decimal:
+    return (Decimal(value) / 100).quantize(Decimal('0.00'))
 
 
 class User(AbstractUser):
@@ -61,6 +67,7 @@ class Product(models.Model):
     details = models.CharField(max_length=255, null=True, blank=True)
     is_available = models.BooleanField(default=False)
     quantity = models.PositiveSmallIntegerField(default=0)
+
     # image = models.CharField(max_length=500, blank=True, default='')
     #
     # @property
@@ -71,6 +78,10 @@ class Product(models.Model):
     #     if self.image.startswith(('http://', 'https://')):
     #         return self.image
     #     return static(self.image)
+
+    @property
+    def price_uah(self) -> Decimal:
+        return conver_to_uah(self.price)
 
     class Meta:
         indexes = [
@@ -100,7 +111,11 @@ class Order(models.Model):
     total_price = models.PositiveIntegerField(default=0)
     handler = models.ForeignKey(
         User, on_delete=models.PROTECT, null=True, blank=True, related_name='handled_orders'
-        )
+    )
+
+    @property
+    def total_price_uah(self) -> Decimal:
+        return conver_to_uah(self.total_price)
 
     def __str__(self):
         return f"Order #{self.id} by {self.user.username} [{self.get_status_display()}]"
@@ -114,6 +129,10 @@ class OrderItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.PROTECT, related_name='order_items')
     quantity = models.PositiveSmallIntegerField(default=1)
     price = models.PositiveIntegerField()
+
+    @property
+    def price_uah(self) -> Decimal:
+        return conver_to_uah(self.price)
 
     def __str__(self):
         return f"{self.quantity} x {self.product.name} (Order #{self.order.id})"
@@ -136,8 +155,12 @@ class Cart(models.Model):
 
     @property
     def total_price(self) -> int:
-        """Підрахунок суми кошика в копійках на основі актуальних цін."""
-        return sum(item.get_cost for item in self.items.all())
+        """Сума кошика в копійках."""
+        return sum(item.get_cost for item in self.items.select_related('product'))
+
+    @property
+    def total_price_uah(self) -> Decimal:
+        return conver_to_uah(self.total_price)
 
 
 class CartItem(models.Model):
@@ -161,8 +184,13 @@ class CartItem(models.Model):
 
     @property
     def get_cost(self) -> int:
-        """Вартість позиції на основі ціни товару."""
+        """Вартість позиції на основі ціни товару в копійках."""
         return self.product.price * self.quantity
+
+    @property
+    def get_cost_uah(self) -> Decimal:
+        """Вартість позиції на основі ціни товару."""
+        return conver_to_uah(self.product.price * self.quantity)
 
     def __str__(self):
         return f'{self.quantity} x {self.product.name} in Cart #{self.cart.id}'

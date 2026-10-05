@@ -156,14 +156,3 @@ class OrderService:
             .prefetch_related('items__product')
             .order_by('created_at')
         )
-    # --------------------------------
-    #Переробити логіку створеня замовлення від адміна
-    # @classmethod
-    # @transaction.atomic
-    # def create_order_by_staff(cls, customer: User, staff_user: User) -> Order:
-    #     """Оформлення замовлення працівником кав'ярні."""
-    #     order = CartService.checkout(customer)
-    #     order.handler = staff_user
-    #     order.status = Order.Status.IN_PROGRESS
-    #     order.save(update_fields=['handler', 'status'])
-    #     return order

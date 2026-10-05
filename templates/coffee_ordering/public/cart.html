@@ -13,7 +13,7 @@
         {% for item in items %}
           <tr>
             <td>{{ item.product.name }}</td>
-            <td>{{ item.product.price }}</td>
+            <td>{{ item.product.price_uah }}</td>
             <td>
               <form method="post" action="{% url 'coffee_ordering:cart_update' item.product.id %}" class="input-group input-group-sm">
                 {% csrf_token %}
@@ -21,7 +21,7 @@
                 <button class="btn btn-outline-secondary">Оновити</button>
               </form>
             </td>
-            <td>{{ item.get_cost }}</td>
+            <td>{{ item.get_cost_uah }}</td>
             <td>
               <form method="post" action="{% url 'coffee_ordering:cart_remove' item.product.id %}">
                 {% csrf_token %}
@@ -40,7 +40,7 @@
       <button class="btn btn-outline-secondary">Очистити кошик</button>
     </form>
     <div class="d-flex align-items-center gap-3">
-      <span class="fs-5 fw-bold">Разом: {{ total_price }} коп.</span>
+      <span class="fs-5 fw-bold">Разом: {{ total_price }} UAH.</span>
       <form method="post" action="{% url 'coffee_ordering:checkout' %}">
         {% csrf_token %}
         <button class="btn btn-success btn-lg">Оформити замовлення</button>

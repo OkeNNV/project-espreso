@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.core.mail import send_mail
-from django.http import Http404
+from django.http import Http404, HttpRequest
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.utils.http import url_has_allowed_host_and_scheme
@@ -175,7 +175,7 @@ def cart_detail(request):
         request, 'coffee_ordering/public/cart.html', {
             'cart': cart,
             'items': items,
-            'total_price': cart.total_price,
+            'total_price': cart.total_price_uah,
         }
     )
 
@@ -358,26 +358,6 @@ def staff_order_cancel(request, order_id: int):
         lambda: OrderService.cancel_order(order_id, handler=request.user),
         'Замовлення #{id} скасовано.',
     )
-
-
-# @moderator_required
-# @require_POST
-# def staff_order_create(request):
-#     """Оформлення замовлення працівником з кошика обраного клієнта (напр. телефонне)."""
-#     customer_id = _parse_int(request.POST.get('customer_id'))
-#     customer = User.objects.filter(id=customer_id).first() if customer_id else None
-#
-#     if customer is None:
-#         messages.error(request, 'Клієнта не знайдено.')
-#         return redirect('coffee_ordering:staff_active_orders')
-#
-#     try:
-#         order = OrderService.create_order_by_staff(customer, request.user)
-#         messages.success(request, f'Замовлення #{order.id} створено.')
-#     except (OrderException, CartException) as e:
-#         messages.error(request, str(e))
-#
-#     return redirect('coffee_ordering:staff_active_orders')
 
 
 @moderator_required
