@@ -1,45 +1,49 @@
 {% extends "coffee_ordering/public/index.html" %}
 {% block title %}Меню{% endblock %}
 {% block content %}
-<h1 class="mb-3">Меню</h1>
+  <h1 class="mb-3">Меню</h1>
 
-<ul class="nav nav-pills mb-4">
-  <li class="nav-item">
-    <a class="nav-link {% if not active_category %}active{% endif %}" href="{% url 'coffee_ordering:menu' %}">Всі</a>
-  </li>
-  {% for c in categories %}
+  <ul class="nav nav-pills mb-4">
     <li class="nav-item">
-      <a class="nav-link {% if active_category == c.slug %}active{% endif %}" href="?category={{ c.slug }}">{{ c.name }}</a>
+      <a class="nav-link {% if not active_category %}active{% endif %}" href="{% url 'coffee_ordering:menu' %}">Всі</a>
     </li>
-  {% endfor %}
-</ul>
+    {% for c in categories %}
+      <li class="nav-item">
+        <a class="nav-link {% if active_category == c.slug %}active{% endif %}"
+           href="?category={{ c.slug }}">{{ c.name }}</a>
+      </li>
+    {% endfor %}
+  </ul>
 
-<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
-  {% for p in products %}
-    <div class="col">
-      <div class="card h-100 shadow-sm">
-        <div class="card-body">
-          <h5 class="card-title">
-            <a class="text-decoration-none" href="{% url 'coffee_ordering:product_detail' p.id %}">{{ p.name }}</a>
-          </h5>
-          <h6 class="card-subtitle mb-2 text-muted">{{ p.category.name }}</h6>
-          {% if p.description %}<p class="card-text small">{{ p.description }}</p>{% endif %}
-          <p class="fw-bold mb-0">{{ p.price_uah }} UAH.</p>
-        </div>
-        {% if user.is_authenticated %}
-          <div class="card-footer bg-white">
-            <form method="post" action="{% url 'coffee_ordering:cart_add' p.id %}" class="input-group">
-              {% csrf_token %}
-              <input type="hidden" name="next" value="{{ request.get_full_path }}">
-              <input type="number" name="quantity" value="1" min="1" max="{{ p.quantity }}" class="form-control">
-              <button class="btn btn-primary">В кошик</button>
-            </form>
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
+    {% for p in products %}
+      <div class="col">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title">
+              <a class="text-decoration-none" href="{% url 'coffee_ordering:product_detail' p.id %}">{{ p.name }}</a>
+            </h5>
+            <h6 class="card-subtitle mb-2 text-muted">{{ p.category.name }}</h6>
+            {% if p.description %}<p class="card-text small">{{ p.description }}</p>{% endif %}
+            <p class="fw-bold mb-0">{{ p.price_uah }} UAH.</p>
           </div>
-        {% endif %}
+          {% if user.is_authenticated %}
+            <div class="card-footer bg-white">
+              <form method="post" action="{% url 'coffee_ordering:cart_add' p.id %}" class="input-group">
+                {% csrf_token %}
+                <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                <input type="number" name="quantity" value="1" min="1" max="{{ p.quantity }}" class="form-control">
+                <button class="btn btn-primary">В кошик</button>
+              </form>
+            </div>
+          {% endif %}
+        </div>
       </div>
-    </div>
-  {% empty %}
-    <div class="col-12"><div class="alert alert-info">Нічого не знайдено.</div></div>
-  {% endfor %}
-</div>
+    {% empty %}
+      <div class="col-12">
+        <div class="alert alert-info">Нічого не знайдено.</div>
+      </div>
+    {% endfor %}
+  </div>
+  {% include "coffee_ordering/public/../../includes/pagination.html" with page_obj=products %}
 {% endblock %}

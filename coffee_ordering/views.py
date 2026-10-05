@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.core.mail import send_mail
+from django.core.paginator import Paginator
 from django.http import Http404, HttpRequest
 from django.shortcuts import redirect, render
 from django.urls import reverse
@@ -31,6 +32,21 @@ from coffee_ordering.services.user_activation_token_service import UserActivatio
 from coffee_ordering.services.user_service import UserService
 
 user_service = UserService(UserActivationTokenService())
+
+PAGE_SIZE = 12
+
+
+def _paginate(request, queryset, per_page=PAGE_SIZE):
+    """Кастомна пагінація"""
+    if hasattr(queryset, 'ordered') and not queryset.ordered:
+        queryset = queryset.order_by('pk')
+
+    paginator = Paginator(queryset, per_page)
+    page = paginator.get_page(request.GET.get('page'))
+    page.elided_range = paginator.get_elided_page_range(
+        page.number, on_each_side=2, on_ends=1
+    )
+    return page
 
 
 def active_required(view):
@@ -109,6 +125,7 @@ def register(request):
 
     return render(request, 'registration/register.html', {'form': form})
 
+
 @require_GET
 def activate(request):
     """Підтвердження email за посиланням ?uid=<uidb64>&token=<token>."""
@@ -138,7 +155,7 @@ def menu(request):
     if category_slug and not categories.filter(slug=category_slug).exists():
         raise Http404(f"Категорію '{category_slug}' не знайдено.")
 
-    products = CatalogService.get_available_products(category_slug)
+    products = _paginate(request, CatalogService.get_available_products(category_slug))
     return render(
         request, 'coffee_ordering/public/menu.html', {
             'categories': categories,
@@ -357,8 +374,9 @@ def staff_order_cancel(request, order_id: int):
 @require_GET
 def staff_products(request):
     products = Product.objects.select_related('category').order_by('category__name', 'name')
-    return render(request, 'coffee_ordering/staff/products.html', {'products': products})
-
+    return render(
+        request, 'coffee_ordering/staff/products.html', {'products': _paginate(request, products, 20)}
+    )
 
 @moderator_required
 @require_POST
