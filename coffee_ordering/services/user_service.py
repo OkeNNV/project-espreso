@@ -68,27 +68,6 @@ class UserService:
             return user
 
     @staticmethod
-    def change_role(user: User, new_role: str) -> User:
-        """
-            Змінює роль користувача та автоматично оновлює is_staff і is_superuser.
-        """
-        if new_role not in User.Role.values:
-            raise ValueError(f"Некоректна роль: {new_role}")
-
-        with transaction.atomic():
-            user.role = new_role
-
-            if new_role in [User.Role.MODERATOR, User.Role.ADMIN]:
-                user.is_staff = True
-            else:
-                user.is_staff = False
-
-            user.is_superuser = (new_role == User.Role.ADMIN)
-
-            user.save(update_fields=['role', 'is_staff', 'is_superuser'])
-            return user
-
-    @staticmethod
     def change_status(user: User, new_status: str) -> User:
         """
             Змінює статус користувача та синхронізує is_active:
