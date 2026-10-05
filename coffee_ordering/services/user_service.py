@@ -89,6 +89,7 @@ class UserService:
             return user
 
     def send_activation_email(self, user: User, activation_url: str) -> None:
+        """Відправляє email з посиланням на активацію аккаунту"""
         message = render_to_string(
             "registration/activation_email.txt",
             {"user": user, "link": self.get_activation_link(activation_url, user)},
