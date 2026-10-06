@@ -2,3 +2,5 @@ Django~=6.1.1
 python-dotenv~=1.2.4
 django-crispy-forms
 crispy-bootstrap5
+python-dotenv
+whitenoise
