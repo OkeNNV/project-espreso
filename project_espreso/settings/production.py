@@ -7,7 +7,14 @@ DEBUG = False
 
 SECRET_KEY = os.environ['SECRET_KEY']
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = [
+    '127.0.0.1',
+    'localhost',
+    '.onrender.com',
+]
+CSRF_TRUSTED_ORIGINS = [
+    o.strip() for o in os.getenv('CSRF_TRUSTED_ORIGINS', '').split(',') if o.strip()
+]
 
 DATABASES = {
     'default': {
