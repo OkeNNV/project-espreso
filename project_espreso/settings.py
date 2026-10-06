@@ -23,9 +23,9 @@ load_dotenv(BASE_DIR / '.env')
 SECRET_KEY = 'django-insecure-#xj2_l7!umguqbh5a=v7%9u490nzy*dn)u-+#!438%oc7y=q_e'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -137,3 +137,5 @@ LOGIN_REDIRECT_URL = 'coffee_ordering:menu'
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
+
+STATIC_ROOT = BASE_DIR / 'staticfiles'
