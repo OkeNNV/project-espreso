@@ -70,6 +70,7 @@ python manage.py loaddata fixtures/populate
 ### 6. Run the development server
 
 ```bash
+python manage.py collectstatic
 python manage.py runserver
 ```
 
