@@ -2,7 +2,15 @@ from decimal import Decimal
 
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-from django.templatetags.static import static
+
+CATEGORY_IMAGES = {
+    'cold': 'cold.png',
+    'coffee': 'coffee.png',
+    'tea': 'tea.png',
+    'desserts': 'dessert.png',
+}
+
+DEFAULT_IMAGE = 'abstract.png'
 
 
 def conver_to_uah(value: int) -> Decimal:
@@ -68,10 +76,15 @@ class Product(models.Model):
     is_available = models.BooleanField(default=False)
     quantity = models.PositiveSmallIntegerField(default=0)
 
-
     @property
     def price_uah(self) -> Decimal:
         return conver_to_uah(self.price)
+
+    @property
+    def image_static_path(self):
+        slug = self.category.slug if self.category_id else None
+        filename = CATEGORY_IMAGES.get(slug, DEFAULT_IMAGE)
+        return f'img/products/{filename}'
 
     class Meta:
         indexes = [

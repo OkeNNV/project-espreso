@@ -1138,5 +1138,330 @@
       "product": 3,
       "quantity": 2
     }
+  },
+  {
+    "model": "coffee_ordering.product",
+    "pk": 23,
+    "fields": {
+      "name": "Рістретто",
+      "price": 5000,
+      "category": 1,
+      "description": "Концентрований та насичений ковток кави",
+      "details": "15 мл, арабіка 100%",
+      "is_available": true,
+      "quantity": 45
+    }
+  },
+  {
+    "model": "coffee_ordering.product",
+    "pk": 24,
+    "fields": {
+      "name": "Лунго",
+      "price": 6000,
+      "category": 1,
+      "description": "Еспресо довгої екстракції",
+      "details": "60 мл",
+      "is_available": true,
+      "quantity": 30
+    }
+  },
+  {
+    "model": "coffee_ordering.product",
+    "pk": 25,
+    "fields": {
+      "name": "Айриш кава",
+      "price": 11000,
+      "category": 1,
+      "description": "Гаряча кава з безалкогольним лікером та вершками",
+      "details": "200 мл",
+      "is_available": true,
+      "quantity": 15
+    }
+  },
+  {
+    "model": "coffee_ordering.product",
+    "pk": 26,
+    "fields": {
+      "name": "Раф Лаванда",
+      "price": 9500,
+      "category": 1,
+      "description": "Ніжний вершковий кавовий напій з нотками лаванди",
+      "details": "300 мл",
+      "is_available": true,
+      "quantity": 20
+    }
+  },
+  {
+    "model": "coffee_ordering.product",
+    "pk": 27,
+    "fields": {
+      "name": "Гласе",
+      "price": 8500,
+      "category": 1,
+      "description": "Еспресо з кулькою ванільного морозива",
+      "details": "180 мл",
+      "is_available": true,
+      "quantity": 18
+    }
+  },
+  {
+    "model": "coffee_ordering.product",
+    "pk": 28,
+    "fields": {
+      "name": "Макіато",
+      "price": 6500,
+      "category": 1,
+      "description": "Еспресо з краплею збитого молока",
+      "details": "50 мл",
+      "is_available": true,
+      "quantity": 35
+    }
+  },
+  {
+    "model": "coffee_ordering.product",
+    "pk": 29,
+    "fields": {
+      "name": "Чай Улун Те Ґуань Інь",
+      "price": 7500,
+      "category": 2,
+      "description": "Світлий китайський улун з квітковим ароматом",
+      "details": "400 мл чайник",
+      "is_available": true,
+      "quantity": 25
+    }
+  },
+  {
+    "model": "coffee_ordering.product",
+    "pk": 30,
+    "fields": {
+      "name": "Чай Пуер",
+      "price": 8000,
+      "category": 2,
+      "description": "Витриманий ферментований чорний чай",
+      "details": "400 мл чайник",
+      "is_available": true,
+      "quantity": 20
+    }
+  },
+  {
+    "model": "coffee_ordering.product",
+    "pk": 31,
+    "fields": {
+      "name": "Чай Обліпиховий з імбиром",
+      "price": 8500,
+      "category": 2,
+      "description": "Натуральний зігріваючий фруктово-ягідний чай",
+      "details": "500 мл чайник",
+      "is_available": true,
+      "quantity": 30
+    }
+  },
+  {
+    "model": "coffee_ordering.product",
+    "pk": 32,
+    "fields": {
+      "name": "Ройбуш Суниця-Крем",
+      "price": 6500,
+      "category": 2,
+      "description": "Південноафриканський безкофеїновий чай",
+      "details": "400 мл чайник",
+      "is_available": true,
+      "quantity": 22
+    }
+  },
+  {
+    "model": "coffee_ordering.product",
+    "pk": 33,
+    "fields": {
+      "name": "Профітролі з кремом",
+      "price": 7500,
+      "category": 3,
+      "description": "Заварні тістечка з ніжним заварним кремом",
+      "details": "120 г (3 шт)",
+      "is_available": true,
+      "quantity": 16
+    }
+  },
+  {
+    "model": "coffee_ordering.product",
+    "pk": 34,
+    "fields": {
+      "name": "Еклер Шоколадний",
+      "price": 6500,
+      "category": 3,
+      "description": "Класичний еклер з темним шоколадом",
+      "details": "80 г",
+      "is_available": true,
+      "quantity": 25
+    }
+  },
+  {
+    "model": "coffee_ordering.product",
+    "pk": 35,
+    "fields": {
+      "name": "Тарт з малиною",
+      "price": 10500,
+      "category": 3,
+      "description": "Пісочний тарт із заварним кремом та свіжою малиною",
+      "details": "110 г",
+      "is_available": true,
+      "quantity": 10
+    }
+  },
+  {
+    "model": "coffee_ordering.product",
+    "pk": 36,
+    "fields": {
+      "name": "Синнабон з корицею",
+      "price": 8500,
+      "category": 3,
+      "description": "Ароматна булочка з корицею та вершковою глазур'ю",
+      "details": "150 г",
+      "is_available": true,
+      "quantity": 14
+    }
+  },
+  {
+    "model": "coffee_ordering.product",
+    "pk": 37,
+    "fields": {
+      "name": "Морквяний торт",
+      "price": 9500,
+      "category": 3,
+      "description": "Пряний бісквіт з морквою, горіхами та крем-чизом",
+      "details": "140 г",
+      "is_available": false,
+      "quantity": 0
+    }
+  },
+  {
+    "model": "coffee_ordering.product",
+    "pk": 38,
+    "fields": {
+      "name": "Шоколадний фондю-кекс",
+      "price": 11500,
+      "category": 3,
+      "description": "Тортик з рідкою шоколадною начинкою всередині",
+      "details": "100 г",
+      "is_available": true,
+      "quantity": 12
+    }
+  },
+  {
+    "model": "coffee_ordering.product",
+    "pk": 39,
+    "fields": {
+      "name": "Еспресо-тонік",
+      "price": 9000,
+      "category": 4,
+      "description": "Освіжаючий мікс тоніка, еспресо та льоду з часточкою лайма",
+      "details": "350 мл",
+      "is_available": true,
+      "quantity": 30
+    }
+  },
+  {
+    "model": "coffee_ordering.product",
+    "pk": 40,
+    "fields": {
+      "name": "Шмель (Bumblebee)",
+      "price": 9500,
+      "category": 4,
+      "description": "Шарований напій з апельсинового соку, карамельного сиропу та еспресо",
+      "details": "350 мл",
+      "is_available": true,
+      "quantity": 25
+    }
+  },
+  {
+    "model": "coffee_ordering.product",
+    "pk": 41,
+    "fields": {
+      "name": "Лимонад Полуниця-Базилік",
+      "price": 8000,
+      "category": 4,
+      "description": "Авторський лимонад зі свіжою полуницею та базиліком",
+      "details": "400 мл",
+      "is_available": true,
+      "quantity": 20
+    }
+  },
+  {
+    "model": "coffee_ordering.product",
+    "pk": 42,
+    "fields": {
+      "name": "Молочний коктейль Ванільний",
+      "price": 7500,
+      "category": 4,
+      "description": "Густий молочний мікшейк з натуральною ваніллю",
+      "details": "400 мл",
+      "is_available": true,
+      "quantity": 15
+    }
+  },
+  {
+    "model": "coffee_ordering.product",
+    "pk": 43,
+    "fields": {
+      "name": "Айс Матча Тонік",
+      "price": 10000,
+      "category": 4,
+      "description": "Японська матча з тоніком та льодом",
+      "details": "350 мл",
+      "is_available": false,
+      "quantity": 0
+    }
+  },
+  {
+    "model": "coffee_ordering.product",
+    "pk": 44,
+    "fields": {
+      "name": "Лате Кленовий Пекан",
+      "price": 9800,
+      "category": 5,
+      "description": "Затишна кава з кленовим сиропом та смаженим горіхом пекан",
+      "details": "300 мл",
+      "is_available": true,
+      "quantity": 22
+    }
+  },
+  {
+    "model": "coffee_ordering.product",
+    "pk": 45,
+    "fields": {
+      "name": "Какао з маршмелоу",
+      "price": 7500,
+      "category": 5,
+      "description": "Насичений гарячий шоколадний напій з міні-маршмелоу",
+      "details": "300 мл",
+      "is_available": true,
+      "quantity": 35
+    }
+  },
+  {
+    "model": "coffee_ordering.product",
+    "pk": 46,
+    "fields": {
+      "name": "Імбирно-Цитрусовий збитень",
+      "price": 8500,
+      "category": 5,
+      "description": "Гарячий напій на основі меду, імбиру та спецій",
+      "details": "300 мл",
+      "is_available": true,
+      "quantity": 18
+    }
+  },
+  {
+    "model": "coffee_ordering.product",
+    "pk": 47,
+    "fields": {
+      "name": "Грушевий тарт з корицею",
+      "price": 9000,
+      "category": 5,
+      "description": "Осінній десерт з карамелізованою грушею",
+      "details": "120 г",
+      "is_available": true,
+      "quantity": 12
+    }
   }
 ]
