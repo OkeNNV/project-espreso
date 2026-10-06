@@ -1,4 +1,11 @@
 # project-espreso
+      link: https://project-espreso.onrender.com/coffee_ordering/
+# credentials:
+| Login | Password |
+|-------|----------|
+| admin | 123 |
+|moderator | 123 |
+|customer | 123 |
 # Espreso
 
 A Django web application for a coffee shop: customers browse the menu, fill a cart and place orders, while staff (moderators and admins) process orders and manage the product catalog.
@@ -76,12 +83,6 @@ python manage.py runserver
 ```
 
 Open http://127.0.0.1:8000/coffee_ordering/
-
-# Superuser credentials
-
-| Login | Password |
-|-------|----------|
-| admin | 123 |
 
 ## How Email Activation Works
 
