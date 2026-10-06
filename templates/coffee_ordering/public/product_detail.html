@@ -1,4 +1,4 @@
-{% extends "coffee_ordering/public/index.html" %}
+{% extends "coffee_ordering/public/../index.html" %}
 {% block title %}{{ product.name }}{% endblock %}
 {% block content %}
 <a href="{% url 'coffee_ordering:menu' %}?category={{ product.category.slug }}" class="btn btn-link px-0 mb-2">

@@ -2,36 +2,16 @@ from decimal import Decimal
 
 from django.test import SimpleTestCase, TestCase
 
-from coffee_ordering.models import Cart, CartItem, User, conver_to_uah, Category, Product
-from coffee_ordering.services.cart_service import CartService
-from coffee_ordering.services.order_service import OrderService
-
-PASSWORD = 'pass12345'
-
-
-def make_user(username='customer', role=User.Role.CUSTOMER, status=User.Status.ACTIVE):
-    return User.objects.create_user(
-        username=username,
-        email=f'{username}@example.com',
-        password=PASSWORD,
-        role=role,
-        status=status,
-    )
-
-
-def make_product(
-        name='Latte',
-        price=5000,
-        quantity=10,
-        is_available=True,
-        category=None):
-    if category is None:
-        category, _ = Category.objects.get_or_create(name='Coffee', defaults={'slug': 'coffee'})
-
-    return Product.objects.create(
-        name=name, price=price, quantity=quantity,
-        is_available=is_available, category=category,
-    )
+from coffee_ordering.models import (
+    Cart,
+    CartItem,
+    User,
+    conver_to_uah
+)
+from coffee_ordering.tests._helpers import (
+    make_user,
+    make_product
+)
 
 
 class ConvertToUahTests(SimpleTestCase):

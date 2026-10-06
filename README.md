@@ -16,6 +16,7 @@ A Django web application for a coffee shop: customers browse the menu, fill a ca
 - Roles and statuses: customer, moderator, admin; `PENDING`, `ACTIVE`, `BLOCKED`
 - Staff board with active orders: accept, mark as ready, complete, cancel
 - Staff product management: toggle availability, update stock quantity
+- Staff user management: Admins can manage other users roles and block/unblock them. Mods can block other users
 
 ## Tech Stack
 
@@ -101,18 +102,18 @@ Users with the status `PENDING` or `BLOCKED` cannot use the cart or orders.
 
 ## Main Pages
 
-| Page | Route name | Access |
-|------|------------|--------|
-| Menu (`?category=<slug>`, `?page=<n>`) | `coffee_ordering:menu` | Public |
-| Product detail | `coffee_ordering/product_detail` | Public |
-| Registration | `coffee_ordering/register` | Anonymous |
-| Email activation | `coffee_ordering/activate` | Public |
-| Cart | `coffee_ordering/cart` | Active user |
-| My orders | `coffee_ordering/my_orders` | Active user |
-| Order detail | `coffee_ordering/order_detail` | Owner / staff |
-| Active orders board | `coffee_ordering/staff_active_orders` | Staff |
-| Product management | `coffee_ordering/staff_products` | Staff |
-
+| Page                                   | Route name                            | Access |
+|----------------------------------------|---------------------------------------|--------|
+| Menu (`?category=<slug>`, `?page=<n>`) | `coffee_ordering:menu`                | Public |
+| Product detail                         | `coffee_ordering/product_detail`      | Public |
+| Registration                           | `coffee_ordering/register`            | Anonymous |
+| Email activation                       | `coffee_ordering/activate`            | Public |
+| Cart                                   | `coffee_ordering/cart`                | Active user |
+| My orders                              | `coffee_ordering/my_orders`           | Active user |
+| Order detail                           | `coffee_ordering/order_detail`        | Owner / staff |
+| Active orders board                    | `coffee_ordering/staff_active_orders` | Staff |
+| Product management                     | `coffee_ordering/staff_products`      | Staff |
+| User management                        | `coffee_ordering/users`               | Staff |
 
 Business logic lives in service classes (`CartService`, `CatalogService`, `OrderService`, `UserService`),
 so views stay thin and only handle HTTP.

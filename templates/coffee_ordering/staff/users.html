@@ -1,0 +1,83 @@
+{% extends "coffee_ordering/public/../index.html" %}
+{% block title %}Користувачі{% endblock %}
+{% block content %}
+<h1 class="mb-3">Користувачі</h1>
+
+<form method="get" class="row g-2 mb-3">
+  <div class="col-12 col-md-5">{{ form.q }}</div>
+  <div class="col-6 col-md-3">{{ form.role }}</div>
+  <div class="col-6 col-md-2">{{ form.status }}</div>
+  <div class="col-12 col-md-2 d-flex gap-2">
+    <button class="btn btn-primary">Знайти</button>
+    <a class="btn btn-outline-secondary" href="{% url 'coffee_ordering:staff_users' %}">Скинути</a>
+  </div>
+</form>
+{% if form.errors %}
+  <div class="alert alert-warning py-2">Деякі параметри пошуку некоректні й були проігноровані.</div>
+{% endif %}
+
+<div class="table-responsive">
+  <table class="table table-striped align-middle bg-white">
+    <thead>
+      <tr><th>Логін</th><th>Email</th><th style="width:260px">Роль</th><th>Статус</th><th></th></tr>
+    </thead>
+    <tbody>
+      {% for u in users %}
+        <tr>
+          <td>{{ u.username }}</td>
+          <td>{{ u.email }}</td>
+
+          <td>
+            {% if u.can_change_role %}
+              <form method="post" action="{% url 'coffee_ordering:staff_user_role' u.pk %}" class="input-group input-group-sm">
+                {% csrf_token %}
+                <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                <select name="role" class="form-select">
+                  {% for value, label in roles %}
+                    <option value="{{ value }}" {% if u.role == value %}selected{% endif %}>{{ label }}</option>
+                  {% endfor %}
+                </select>
+                <button class="btn btn-outline-primary">Зберегти</button>
+              </form>
+            {% else %}
+              {{ u.get_role_display }}
+              {% if u.pk == user.pk %}<span class="text-muted small">(це ви)</span>{% endif %}
+            {% endif %}
+          </td>
+
+          <td>
+            <span class="badge text-bg-{% if u.status == 'ACTIVE' %}success{% elif u.status == 'BLOCKED' %}danger{% else %}secondary{% endif %}">
+              {{ u.get_status_display }}
+            </span>
+          </td>
+
+          <td>
+            {% if u.can_change_status %}
+              {% if u.status == 'ACTIVE' %}
+                <form method="post" action="{% url 'coffee_ordering:staff_user_status' u.pk %}"
+                      onsubmit="return confirm('Заблокувати {{ u.username|escapejs }}? Усі його активні замовлення буде скасовано, а кошик очищено.');">
+                  {% csrf_token %}
+                  <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                  <input type="hidden" name="status" value="BLOCKED">
+                  <button class="btn btn-sm btn-outline-danger">Заблокувати</button>
+                </form>
+              {% elif u.status == 'BLOCKED' %}
+                <form method="post" action="{% url 'coffee_ordering:staff_user_status' u.pk %}">
+                  {% csrf_token %}
+                  <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                  <input type="hidden" name="status" value="ACTIVE">
+                  <button class="btn btn-sm btn-outline-success">Розблокувати</button>
+                </form>
+              {% endif %}
+            {% endif %}
+          </td>
+        </tr>
+      {% empty %}
+        <tr><td colspan="5" class="text-center text-muted">Користувачів не знайдено.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% include "includes/_pagination.html" with page_obj=users %}
+{% endblock %}

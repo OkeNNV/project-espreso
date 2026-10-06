@@ -6,9 +6,17 @@ from django.conf import settings
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 
+from coffee_ordering.models import Order
+from coffee_ordering.services.cart_service import CartService
+from coffee_ordering.services.order_service import OrderService
 from coffee_ordering.services.user_activation_token_service import UserActivationTokenService
 
 User = get_user_model()
+
+
+class UserServiceError(Exception):
+    """Помилка керування користувачами."""
+    pass
 
 
 class UserService:
@@ -56,6 +64,19 @@ class UserService:
             user.save()
             return user
 
+    def send_activation_email(self, user: User, activation_url: str) -> None:
+        """Відправляє email з посиланням на активацію аккаунту"""
+        message = render_to_string(
+            "registration/activation_email.txt",
+            {"user": user, "link": self.get_activation_link(activation_url, user)},
+        )
+        send_mail(
+            subject="Підтвердження реєстрації",
+            message=message,
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            recipient_list=[user.email],
+        )
+
     @staticmethod
     def confirm_user_email(user: User) -> User:
         """
@@ -88,15 +109,47 @@ class UserService:
             user.save(update_fields=['status', 'is_active'])
             return user
 
-    def send_activation_email(self, user: User, activation_url: str) -> None:
-        """Відправляє email з посиланням на активацію аккаунту"""
-        message = render_to_string(
-            "registration/activation_email.txt",
-            {"user": user, "link": self.get_activation_link(activation_url, user)},
+    @staticmethod
+    def change_role(user: User, new_role: str) -> User:
+        """Змінює роль користувача (CUSTOMER / MODERATOR / ADMIN)."""
+        if new_role not in User.Role.values:
+            raise UserServiceError(f"Некоректна роль: {new_role}")
+
+        user.role = new_role
+        user.save(update_fields=['role'])
+        return user
+
+    @classmethod
+    @transaction.atomic
+    def block_user(cls, user: User, handler: User) -> User:
+        """
+            Блокує активного користувача:
+            - ACTIVE -> BLOCKED (is_active = False)
+            - скасовує всі його замовлення в статусах NEW / IN_PROGRESS / READY
+              (товари повертаються на склад), завершені замовлення не чіпає
+            - очищує його кошик
+            Усе виконується в одній транзакції: при помилці нічого не змінюється.
+        """
+        if user.status != User.Status.ACTIVE:
+            raise UserServiceError('Заблокувати можна лише активного користувача.')
+
+        cls.change_status(user, User.Status.BLOCKED)
+
+        order_ids = list(
+            Order.objects.filter(
+                user=user,
+                status__in=[Order.Status.NEW, Order.Status.IN_PROGRESS, Order.Status.READY],
+            ).values_list('id', flat=True)
         )
-        send_mail(
-            subject="Підтвердження реєстрації",
-            message=message,
-            from_email=settings.DEFAULT_FROM_EMAIL,
-            recipient_list=[user.email],
-        )
+        for order_id in order_ids:
+            OrderService.cancel_order(order_id, handler=handler)
+
+        CartService.clear_cart(user)
+        return user
+
+    @classmethod
+    def unblock_user(cls, user: User) -> User:
+        """BLOCKED -> ACTIVE."""
+        if user.status != User.Status.BLOCKED:
+            raise UserServiceError('Розблокувати можна лише заблокованого користувача.')
+        return cls.change_status(user, User.Status.ACTIVE)

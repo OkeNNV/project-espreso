@@ -4,13 +4,14 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.core.paginator import Paginator
+from django.db.models import Q
 from django.http import Http404
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.utils.http import url_has_allowed_host_and_scheme
 from django.views.decorators.http import require_GET, require_http_methods, require_POST
 
-from coffee_ordering.forms import RegisterForm
+from coffee_ordering.forms import RegisterForm, UserSearchForm
 from coffee_ordering.models import Order, Product, User
 from coffee_ordering.services.cart_service import (
     CartException,
@@ -28,7 +29,7 @@ from coffee_ordering.services.order_service import (
     OrderService,
 )
 from coffee_ordering.services.user_activation_token_service import UserActivationTokenService
-from coffee_ordering.services.user_service import UserService
+from coffee_ordering.services.user_service import UserService, UserServiceError
 
 user_service = UserService(UserActivationTokenService())
 
@@ -46,6 +47,16 @@ def _paginate(request, queryset, per_page=PAGE_SIZE):
         page.number, on_each_side=2, on_ends=1
     )
     return page
+
+
+def _redirect_back(request, default):
+    """Редірект на ?next=/POST next, якщо він безпечний, інакше на default."""
+    target = request.POST.get('next') or request.GET.get('next')
+    if target and url_has_allowed_host_and_scheme(
+            target, allowed_hosts={request.get_host()}, require_https=request.is_secure()
+    ):
+        return redirect(target)
+    return redirect(default)
 
 
 def active_required(view):
@@ -74,6 +85,19 @@ def moderator_required(view):
     return wrapper
 
 
+def admin_required(view):
+    """Доступ лише для адміністраторів (з активним акаунтом)."""
+
+    @wraps(view)
+    @active_required
+    def wrapper(request, *args, **kwargs):
+        if not request.user.is_admin:
+            raise PermissionDenied
+        return view(request, *args, **kwargs)
+
+    return wrapper
+
+
 def _parse_int(value, default=None):
     try:
         return int(value)
@@ -81,14 +105,28 @@ def _parse_int(value, default=None):
         return default
 
 
-def _redirect_back(request, default):
-    """Редірект на ?next=/POST next, якщо він безпечний, інакше на default."""
-    target = request.POST.get('next') or request.GET.get('next')
-    if target and url_has_allowed_host_and_scheme(
-            target, allowed_hosts={request.get_host()}, require_https=request.is_secure()
-    ):
-        return redirect(target)
-    return redirect(default)
+def _get_user_or_404(user_id: int) -> User:
+    try:
+        return User.objects.get(pk=user_id)
+    except User.DoesNotExist:
+        raise Http404(f'Користувача #{user_id} не знайдено.')
+
+
+def _can_change_role(actor: User, target: User) -> bool:
+    """Адміни можуть видавати та забирати роль модератора"""
+    return actor.is_admin and not target.is_admin
+
+
+def _can_change_status(actor: User, target: User) -> bool:
+    """
+        - адмін може змінювати статус будь-кого (крім себе);
+        - модератор лише рядових користувачів (CUSTOMER).
+    """
+    if actor.pk == target.pk:
+        return False
+    if actor.is_admin:
+        return True
+    return target.role == User.Role.CUSTOMER
 
 
 def _get_product_or_404(product_id: int) -> Product:
@@ -422,3 +460,81 @@ def staff_product_stock(request, product_id: int):
     except CatalogException as e:
         messages.error(request, str(e))
     return redirect('coffee_ordering:staff_products')
+
+
+@moderator_required
+@require_GET
+def staff_users(request):
+    """Список користувачів з пошуком і фільтрами."""
+    form = UserSearchForm(request.GET)
+    users = form.filter(User.objects.order_by('username'))
+
+    page = _paginate(request, users, 12)
+    for u in page.object_list:
+        u.can_change_role = _can_change_role(request.user, u)
+        u.can_change_status = _can_change_status(request.user, u)
+
+    return render(
+        request,
+        'coffee_ordering/staff/users.html',
+        {
+            'users': page,
+            'form': form,
+            'roles': User.Role.choices,
+        }
+    )
+
+
+@admin_required
+@require_POST
+def staff_user_role(request, user_id: int):
+    """Зміна ролі: лише адміни, лише для не-адмінів."""
+    target = _get_user_or_404(user_id)
+
+    if not _can_change_role(request.user, target):
+        messages.error(request, 'Не можна змінювати роль адміністратора.')
+        return _redirect_back(request, 'coffee_ordering:staff_users')
+
+    try:
+        UserService.change_role(target, request.POST.get('role', ''))
+        messages.success(
+            request, f"Роль '{target.username}' змінено на {target.get_role_display()}."
+        )
+    except UserServiceError as e:
+        messages.error(request, str(e))
+
+    return _redirect_back(request, 'coffee_ordering:staff_users')
+
+
+@moderator_required
+@require_POST
+def staff_user_status(request, user_id: int):
+    """Змінює статус ACTIVE <-> BLOCKED (інші переходи недоступні)."""
+    target = _get_user_or_404(user_id)
+
+    if target.pk == request.user.pk:
+        messages.error(request, 'Не можна змінювати власний статус.')
+        return _redirect_back(request, 'coffee_ordering:staff_users')
+
+    if not _can_change_status(request.user, target):
+        messages.error(request, 'Ви можете змінювати статус лише рядових користувачів.')
+        return _redirect_back(request, 'coffee_ordering:staff_users')
+
+    new_status = request.POST.get('status')
+    try:
+        if new_status == User.Status.BLOCKED:
+            UserService.block_user(target, handler=request.user)
+            messages.success(
+                request,
+                f"Користувача '{target.username}' заблоковано. "
+                f"Активні замовлення скасовано, кошик очищено."
+            )
+        elif new_status == User.Status.ACTIVE:
+            UserService.unblock_user(target)
+            messages.success(request, f"Користувача '{target.username}' розблоковано.")
+        else:
+            messages.error(request, 'Дозволені статуси: ACTIVE або BLOCKED.')
+    except (UserServiceError, OrderException) as e:
+        messages.error(request, str(e))
+
+    return _redirect_back(request, 'coffee_ordering:staff_users')

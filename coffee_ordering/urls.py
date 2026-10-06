@@ -55,4 +55,13 @@ urlpatterns = [
         'staff/products/<int:product_id>/stock/', views.staff_product_stock,
         name='staff_product_stock'
         ),
+    path('staff/users/', views.staff_users, name='staff_users'),
+    path(
+        'staff/users/<int:user_id>/role/', views.staff_user_role,
+        name='staff_user_role'
+    ),
+    path(
+        'staff/users/<int:user_id>/status/', views.staff_user_status,
+        name='staff_user_status'
+    ),
 ]

@@ -1,4 +1,4 @@
-{% extends "coffee_ordering/public/index.html" %}
+{% extends "coffee_ordering/public/../index.html" %}
 {% block title %}Меню{% endblock %}
 {% block content %}
   <h1 class="mb-3">Меню</h1>
@@ -45,5 +45,5 @@
       </div>
     {% endfor %}
   </div>
-  {% include "coffee_ordering/public/../../includes/pagination.html" with page_obj=products %}
+  {% include "includes/_pagination.html" with page_obj=products %}
 {% endblock %}
