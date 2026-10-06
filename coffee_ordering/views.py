@@ -120,7 +120,11 @@ def register(request):
         user_service.send_activation_email(
             user, request.build_absolute_uri(reverse('coffee_ordering:activate'))
         )
-        return render(request, 'registration/register_done.html', {'email': user.email})
+        return render(
+            request,
+            'registration/register_done.html',
+            {'email': user.email}
+        )
 
     return render(request, 'registration/register.html', {'form': form})
 
@@ -172,7 +176,11 @@ def product_detail(request, product_id: int):
     if hidden and not (request.user.is_authenticated and request.user.is_moderator):
         raise Http404('Товар недоступний.')
 
-    return render(request, 'coffee_ordering/public/product_detail.html', {'product': product})
+    return render(
+        request,
+        'coffee_ordering/public/product_detail.html',
+        {'product': product}
+    )
 
 
 @active_required
@@ -267,7 +275,11 @@ def my_orders(request):
         .prefetch_related('items__product')
         .order_by('-created_at')
     )
-    return render(request, 'coffee_ordering/public/my_orders.html', {'orders': orders})
+    return render(
+        request,
+        'coffee_ordering/public/my_orders.html',
+        {'orders': orders}
+    )
 
 
 @active_required
@@ -372,10 +384,16 @@ def staff_order_cancel(request, order_id: int):
 @moderator_required
 @require_GET
 def staff_products(request):
-    products = Product.objects.select_related('category').order_by('category__name', 'name')
-    return render(
-        request, 'coffee_ordering/staff/products.html', {'products': _paginate(request, products, 20)}
+    products = Product.objects.select_related('category').order_by(
+        'category__name',
+        'name'
     )
+    return render(
+        request,
+        'coffee_ordering/staff/products.html',
+        {'products': _paginate(request, products, 20)}
+    )
+
 
 @moderator_required
 @require_POST
