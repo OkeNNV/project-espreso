@@ -3,7 +3,7 @@
     "model": "coffee_ordering.user",
     "pk": 1,
     "fields": {
-      "password": "pbkdf2_sha256$600000$demosalt12345$UU6nXh58QPNuBvDRfJUsiirirQSsFE8hpcC79HZ14uY=",
+      "password": "pbkdf2_sha256$1500000$pMaMFD2UZSODuPBxznkKLU$7Kl5g5K/YjaIhX9b3u8wlpTeihabSyAe9nNVIJQVjp8=",
       "last_login": null,
       "is_superuser": true,
       "username": "admin",

@@ -68,16 +68,6 @@ class Product(models.Model):
     is_available = models.BooleanField(default=False)
     quantity = models.PositiveSmallIntegerField(default=0)
 
-    # image = models.CharField(max_length=500, blank=True, default='')
-    #
-    # @property
-    # def image_url(self) -> str | None:
-    #     """Готове посилання для <img>: зовнішнє як є, статичний шлях через static()."""
-    #     if not self.image:
-    #         return None
-    #     if self.image.startswith(('http://', 'https://')):
-    #         return self.image
-    #     return static(self.image)
 
     @property
     def price_uah(self) -> Decimal:
