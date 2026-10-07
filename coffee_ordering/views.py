@@ -37,7 +37,7 @@ PAGE_SIZE = 12
 
 
 def _paginate(request, queryset, per_page=PAGE_SIZE):
-    """Кастомна пагінація"""
+    """Кастомна пагінація."""
     if hasattr(queryset, 'ordered') and not queryset.ordered:
         queryset = queryset.order_by('pk')
 
@@ -73,7 +73,7 @@ def active_required(view):
 
 
 def moderator_required(view):
-    """Доступ для модераторів та адміністраторів (з активним акаунтом)."""
+    """Доступ для модераторів та адміністраторів."""
 
     @wraps(view)
     @active_required
@@ -86,7 +86,7 @@ def moderator_required(view):
 
 
 def admin_required(view):
-    """Доступ лише для адміністраторів (з активним акаунтом)."""
+    """Доступ лише для адміністраторів."""
 
     @wraps(view)
     @active_required
@@ -99,6 +99,7 @@ def admin_required(view):
 
 
 def _parse_int(value, default=None):
+    """Безпечне перетворення значення на ціле число."""
     try:
         return int(value)
     except (TypeError, ValueError):
@@ -106,6 +107,7 @@ def _parse_int(value, default=None):
 
 
 def _get_user_or_404(user_id: int) -> User:
+    """Отримання користувача за ID або 404."""
     try:
         return User.objects.get(pk=user_id)
     except User.DoesNotExist:
@@ -113,14 +115,14 @@ def _get_user_or_404(user_id: int) -> User:
 
 
 def _can_change_role(actor: User, target: User) -> bool:
-    """Адміни можуть видавати та забирати роль модератора"""
+    """Адміни можуть видавати та забирати роль модератора."""
     return actor.is_admin and not target.is_admin
 
 
 def _can_change_status(actor: User, target: User) -> bool:
     """
-        - адмін може змінювати статус будь-кого (крім себе);
-        - модератор лише рядових користувачів (CUSTOMER).
+    - адмін може змінювати статус будь-кого (крім себе);
+    - модератор лише рядових користувачів (CUSTOMER).
     """
     if actor.pk == target.pk:
         return False
@@ -130,6 +132,7 @@ def _can_change_status(actor: User, target: User) -> bool:
 
 
 def _get_product_or_404(product_id: int) -> Product:
+    """Отримання товару за ID або 404."""
     try:
         return CatalogService.get_product_by_id(product_id)
     except ProductNotFoundError as e:
@@ -137,6 +140,7 @@ def _get_product_or_404(product_id: int) -> Product:
 
 
 def _get_order_or_404(order_id: int) -> Order:
+    """Отримання замовлення за ID або 404."""
     try:
         return OrderService.get_order_by_id(order_id)
     except OrderNotFoundError as e:
@@ -145,6 +149,7 @@ def _get_order_or_404(order_id: int) -> Order:
 
 @require_http_methods(['GET', 'POST'])
 def register(request):
+    """Реєстрація нового користувача."""
     if request.user.is_authenticated:
         return redirect('coffee_ordering:menu')
 
@@ -208,6 +213,7 @@ def menu(request):
 
 @require_GET
 def product_detail(request, product_id: int):
+    """Деталі товару."""
     product = _get_product_or_404(product_id)
 
     hidden = not product.is_available or product.quantity <= 0
@@ -224,6 +230,7 @@ def product_detail(request, product_id: int):
 @active_required
 @require_GET
 def cart_detail(request):
+    """Перегляд кошика користувача."""
     cart = CartService.get_or_create_cart(request.user)
     items = cart.items.select_related('product')
     return render(
@@ -238,7 +245,7 @@ def cart_detail(request):
 @active_required
 @require_POST
 def cart_add(request, product_id: int):
-    """Запит на додавання товарів в кошик користувача"""
+    """Запит на додавання товарів в кошик користувача."""
     product = _get_product_or_404(product_id)
     quantity = _parse_int(request.POST.get('quantity'), default=1)
 
@@ -258,6 +265,7 @@ def cart_add(request, product_id: int):
 @active_required
 @require_POST
 def cart_update(request, product_id: int):
+    """Оновлення кількості товару в кошику."""
     product = _get_product_or_404(product_id)
     quantity = _parse_int(request.POST.get('quantity'))
 
@@ -276,6 +284,7 @@ def cart_update(request, product_id: int):
 @active_required
 @require_POST
 def cart_remove(request, product_id: int):
+    """Видалення товару з кошика."""
     product = _get_product_or_404(product_id)
     try:
         CartService.remove_item(request.user, product)
@@ -288,6 +297,7 @@ def cart_remove(request, product_id: int):
 @active_required
 @require_POST
 def cart_clear(request):
+    """Очищення кошика."""
     CartService.clear_cart(request.user)
     messages.success(request, 'Кошик очищено.')
     return redirect('coffee_ordering:cart')
@@ -296,6 +306,7 @@ def cart_clear(request):
 @active_required
 @require_POST
 def checkout(request):
+    """Оформлення замовлення з кошика."""
     try:
         order = OrderService.create_order_from_cart(request.user)
     except OrderCreationError as e:
@@ -309,6 +320,7 @@ def checkout(request):
 @active_required
 @require_GET
 def my_orders(request):
+    """Список замовлень поточного користувача."""
     orders = (
         Order.objects.filter(user=request.user)
         .prefetch_related('items__product')
@@ -324,6 +336,7 @@ def my_orders(request):
 @active_required
 @require_GET
 def order_detail(request, order_id: int):
+    """Деталі замовлення."""
     order = _get_order_or_404(order_id)
 
     if order.user_id != request.user.id and not request.user.is_moderator:
@@ -341,6 +354,7 @@ def order_detail(request, order_id: int):
 @active_required
 @require_POST
 def order_cancel(request, order_id: int):
+    """Скасування замовлення користувачем або персоналом."""
     order = _get_order_or_404(order_id)
     is_staff = request.user.is_moderator
 
@@ -372,6 +386,7 @@ def active_orders(request):
 
 
 def _staff_order_action(request, order_id, action, success_msg):
+    """Допоміжна функція для виконання дій персоналу над замовленням."""
     try:
         action()
         messages.success(request, success_msg.format(id=order_id))
@@ -383,6 +398,7 @@ def _staff_order_action(request, order_id, action, success_msg):
 @moderator_required
 @require_POST
 def staff_order_accept(request, order_id: int):
+    """Прийняття замовлення в роботу персоналом."""
     return _staff_order_action(
         request, order_id,
         lambda: OrderService.accept_order(order_id, handler=request.user),
@@ -393,6 +409,7 @@ def staff_order_accept(request, order_id: int):
 @moderator_required
 @require_POST
 def staff_order_ready(request, order_id: int):
+    """Позначення замовлення як готового."""
     return _staff_order_action(
         request, order_id,
         lambda: OrderService.mark_as_ready(order_id),
@@ -403,6 +420,7 @@ def staff_order_ready(request, order_id: int):
 @moderator_required
 @require_POST
 def staff_order_complete(request, order_id: int):
+    """Завершення замовлення персоналом."""
     return _staff_order_action(
         request, order_id,
         lambda: OrderService.complete_order(order_id),
@@ -413,6 +431,7 @@ def staff_order_complete(request, order_id: int):
 @moderator_required
 @require_POST
 def staff_order_cancel(request, order_id: int):
+    """Скасування замовлення персоналом."""
     return _staff_order_action(
         request, order_id,
         lambda: OrderService.cancel_order(order_id, handler=request.user),
@@ -423,6 +442,7 @@ def staff_order_cancel(request, order_id: int):
 @moderator_required
 @require_GET
 def staff_products(request):
+    """Управління товарами для персоналу."""
     products = Product.objects.select_related('category').order_by(
         'category__name',
         'name'
@@ -437,6 +457,7 @@ def staff_products(request):
 @moderator_required
 @require_POST
 def staff_product_availability(request, product_id: int):
+    """Зміна видимості/доступності товару."""
     is_available = request.POST.get('is_available') in ('1', 'true', 'on', 'True')
     try:
         product = CatalogService.update_product_availability(product_id, is_available)
@@ -450,6 +471,7 @@ def staff_product_availability(request, product_id: int):
 @moderator_required
 @require_POST
 def staff_product_stock(request, product_id: int):
+    """Зміна залишку товару на складі."""
     quantity = _parse_int(request.POST.get('quantity'))
     if quantity is None:
         messages.error(request, 'Некоректна кількість.')
