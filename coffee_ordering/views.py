@@ -160,9 +160,12 @@ def register(request):
             email=form.cleaned_data['email'],
             password=form.cleaned_data['password1'],
         )
-        user_service.send_activation_email(
-            user, request.build_absolute_uri(reverse('coffee_ordering:activate'))
-        )
+
+        # user_service.send_activation_email(
+        #     user, request.build_absolute_uri(reverse('coffee_ordering:activate'))
+        # )
+        # Відключив до деплою на AWS
+
         return render(
             request,
             'registration/register_done.html',
