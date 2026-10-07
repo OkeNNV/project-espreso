@@ -238,6 +238,7 @@ def cart_detail(request):
 @active_required
 @require_POST
 def cart_add(request, product_id: int):
+    """Запит на додавання товарів в кошик користувача"""
     product = _get_product_or_404(product_id)
     quantity = _parse_int(request.POST.get('quantity'), default=1)
 

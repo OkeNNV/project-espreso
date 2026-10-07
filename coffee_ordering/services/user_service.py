@@ -57,9 +57,10 @@ class UserService:
                 username=username,
                 email=email,
                 is_active=False,
-                status=User.Status.PENDING,
+                status=User.Status.ACTIVE, #поки  не передеплою на амазон буде актів
                 **extra_fields
             )
+            user.is_active = True #поки  не передеплою на амазон буде актів
             user.set_password(password)
             user.save()
             return user
