@@ -1,0 +1,1467 @@
+[
+  {
+    "model": "coffee_ordering.user",
+    "pk": 1,
+    "fields": {
+      "password": "pbkdf2_sha256$1500000$pMaMFD2UZSODuPBxznkKLU$7Kl5g5K/YjaIhX9b3u8wlpTeihabSyAe9nNVIJQVjp8=",
+      "last_login": null,
+      "is_superuser": true,
+      "username": "admin",
+      "first_name": "Олена",
+      "last_name": "Коваленко",
+      "email": "admin@example.com",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2026-07-06T12:00:00Z",
+      "groups": [],
+      "user_permissions": [],
+      "role": "ADMIN",
+      "status": "ACTIVE"
+    }
+  },
+  {
+    "model": "coffee_ordering.user",
+    "pk": 2,
+    "fields": {
+      "password": "pbkdf2_sha256$600000$demosalt12345$UU6nXh58QPNuBvDRfJUsiirirQSsFE8hpcC79HZ14uY=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "mod_andriy",
+      "first_name": "Андрій",
+      "last_name": "Шевченко",
+      "email": "mod_andriy@example.com",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2026-07-09T12:00:00Z",
+      "groups": [],
+      "user_permissions": [],
+      "role": "MODERATOR",
+      "status": "ACTIVE"
+    }
+  },
+  {
+    "model": "coffee_ordering.user",
+    "pk": 3,
+    "fields": {
+      "password": "pbkdf2_sha256$600000$demosalt12345$UU6nXh58QPNuBvDRfJUsiirirQSsFE8hpcC79HZ14uY=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "mod_iryna",
+      "first_name": "Ірина",
+      "last_name": "Бондаренко",
+      "email": "mod_iryna@example.com",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2026-07-12T12:00:00Z",
+      "groups": [],
+      "user_permissions": [],
+      "role": "MODERATOR",
+      "status": "ACTIVE"
+    }
+  },
+  {
+    "model": "coffee_ordering.user",
+    "pk": 4,
+    "fields": {
+      "password": "pbkdf2_sha256$600000$demosalt12345$UU6nXh58QPNuBvDRfJUsiirirQSsFE8hpcC79HZ14uY=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "maria",
+      "first_name": "Марія",
+      "last_name": "Мельник",
+      "email": "maria@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2026-07-15T12:00:00Z",
+      "groups": [],
+      "user_permissions": [],
+      "role": "CUSTOMER",
+      "status": "ACTIVE"
+    }
+  },
+  {
+    "model": "coffee_ordering.user",
+    "pk": 5,
+    "fields": {
+      "password": "pbkdf2_sha256$600000$demosalt12345$UU6nXh58QPNuBvDRfJUsiirirQSsFE8hpcC79HZ14uY=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "dmytro",
+      "first_name": "Дмитро",
+      "last_name": "Ткаченко",
+      "email": "dmytro@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2026-07-18T12:00:00Z",
+      "groups": [],
+      "user_permissions": [],
+      "role": "CUSTOMER",
+      "status": "ACTIVE"
+    }
+  },
+  {
+    "model": "coffee_ordering.user",
+    "pk": 6,
+    "fields": {
+      "password": "pbkdf2_sha256$600000$demosalt12345$UU6nXh58QPNuBvDRfJUsiirirQSsFE8hpcC79HZ14uY=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "sofiia",
+      "first_name": "Софія",
+      "last_name": "Кравченко",
+      "email": "sofiia@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2026-07-21T12:00:00Z",
+      "groups": [],
+      "user_permissions": [],
+      "role": "CUSTOMER",
+      "status": "ACTIVE"
+    }
+  },
+  {
+    "model": "coffee_ordering.user",
+    "pk": 7,
+    "fields": {
+      "password": "pbkdf2_sha256$600000$demosalt12345$UU6nXh58QPNuBvDRfJUsiirirQSsFE8hpcC79HZ14uY=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "taras",
+      "first_name": "Тарас",
+      "last_name": "Олійник",
+      "email": "taras@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2026-07-24T12:00:00Z",
+      "groups": [],
+      "user_permissions": [],
+      "role": "CUSTOMER",
+      "status": "ACTIVE"
+    }
+  },
+  {
+    "model": "coffee_ordering.user",
+    "pk": 8,
+    "fields": {
+      "password": "pbkdf2_sha256$600000$demosalt12345$UU6nXh58QPNuBvDRfJUsiirirQSsFE8hpcC79HZ14uY=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "natalia",
+      "first_name": "Наталя",
+      "last_name": "Шевчук",
+      "email": "natalia@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2026-07-27T12:00:00Z",
+      "groups": [],
+      "user_permissions": [],
+      "role": "CUSTOMER",
+      "status": "ACTIVE"
+    }
+  },
+  {
+    "model": "coffee_ordering.user",
+    "pk": 9,
+    "fields": {
+      "password": "pbkdf2_sha256$600000$demosalt12345$UU6nXh58QPNuBvDRfJUsiirirQSsFE8hpcC79HZ14uY=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "oleh_pending",
+      "first_name": "Олег",
+      "last_name": "Поліщук",
+      "email": "oleh_pending@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2026-07-30T12:00:00Z",
+      "groups": [],
+      "user_permissions": [],
+      "role": "CUSTOMER",
+      "status": "PENDING"
+    }
+  },
+  {
+    "model": "coffee_ordering.user",
+    "pk": 10,
+    "fields": {
+      "password": "pbkdf2_sha256$600000$demosalt12345$UU6nXh58QPNuBvDRfJUsiirirQSsFE8hpcC79HZ14uY=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "spammer",
+      "first_name": "Віктор",
+      "last_name": "Лисенко",
+      "email": "spammer@example.com",
+      "is_staff": false,
+      "is_active": false,
+      "date_joined": "2026-08-02T12:00:00Z",
+      "groups": [],
+      "user_permissions": [],
+      "role": "CUSTOMER",
+      "status": "BLOCKED"
+    }
+  },
+  {
+    "model": "coffee_ordering.category",
+    "pk": 1,
+    "fields": {
+      "name": "Кава",
+      "slug": "coffee"
+    }
+  },
+  {
+    "model": "coffee_ordering.category",
+    "pk": 2,
+    "fields": {
+      "name": "Чай",
+      "slug": "tea"
+    }
+  },
+  {
+    "model": "coffee_ordering.category",
+    "pk": 3,
+    "fields": {
+      "name": "Десерти",
+      "slug": "desserts"
+    }
+  },
+  {
+    "model": "coffee_ordering.category",
+    "pk": 4,
+    "fields": {
+      "name": "Холодні напої",
+      "slug": "cold"
+    }
+  },
+  {
+    "model": "coffee_ordering.category",
+    "pk": 5,
+    "fields": {
+      "name": "Сезонне меню",
+      "slug": "seasonal"
+    }
+  },
+  {
+    "model": "coffee_ordering.product",
+    "pk": 1,
+    "fields": {
+      "name": "Еспресо",
+      "price": 5500,
+      "category": 1,
+      "description": "Класичний міцний еспресо",
+      "details": "30 мл, арабіка 100%",
+      "is_available": true,
+      "quantity": 50
+    }
+  },
+  {
+    "model": "coffee_ordering.product",
+    "pk": 2,
+    "fields": {
+      "name": "Американо",
+      "price": 6000,
+      "category": 1,
+      "description": "Еспресо з гарячою водою",
+      "details": "200 мл",
+      "is_available": true,
+      "quantity": 50
+    }
+  },
+  {
+    "model": "coffee_ordering.product",
+    "pk": 3,
+    "fields": {
+      "name": "Капучино",
+      "price": 7500,
+      "category": 1,
+      "description": "Еспресо з молочною піною",
+      "details": "200 мл",
+      "is_available": true,
+      "quantity": 40
+    }
+  },
+  {
+    "model": "coffee_ordering.product",
+    "pk": 4,
+    "fields": {
+      "name": "Лате",
+      "price": 8000,
+      "category": 1,
+      "description": "Ніжна кава з молоком",
+      "details": "300 мл",
+      "is_available": true,
+      "quantity": 40
+    }
+  },
+  {
+    "model": "coffee_ordering.product",
+    "pk": 5,
+    "fields": {
+      "name": "Флет вайт",
+      "price": 8500,
+      "category": 1,
+      "description": "Подвійний еспресо з мікропіною",
+      "details": "180 мл",
+      "is_available": true,
+      "quantity": 30
+    }
+  },
+  {
+    "model": "coffee_ordering.product",
+    "pk": 6,
+    "fields": {
+      "name": "Раф ванільний",
+      "price": 9000,
+      "category": 1,
+      "description": "Вершковий раф з ваніллю",
+      "details": "300 мл",
+      "is_available": true,
+      "quantity": 25
+    }
+  },
+  {
+    "model": "coffee_ordering.product",
+    "pk": 7,
+    "fields": {
+      "name": "Мокко",
+      "price": 8800,
+      "category": 1,
+      "description": "Кава з шоколадом і молоком",
+      "details": "300 мл",
+      "is_available": true,
+      "quantity": 20
+    }
+  },
+  {
+    "model": "coffee_ordering.product",
+    "pk": 8,
+    "fields": {
+      "name": "Зелений чай сенча",
+      "price": 6000,
+      "category": 2,
+      "description": "Японський зелений чай",
+      "details": "400 мл чайник",
+      "is_available": true,
+      "quantity": 30
+    }
+  },
+  {
+    "model": "coffee_ordering.product",
+    "pk": 9,
+    "fields": {
+      "name": "Чорний чай з бергамотом",
+      "price": 6000,
+      "category": 2,
+      "description": "Ерл грей",
+      "details": "400 мл чайник",
+      "is_available": true,
+      "quantity": 30
+    }
+  },
+  {
+    "model": "coffee_ordering.product",
+    "pk": 10,
+    "fields": {
+      "name": "Чай трав'яний",
+      "price": 6500,
+      "category": 2,
+      "description": "М'ята, меліса, чебрець",
+      "details": "400 мл чайник",
+      "is_available": true,
+      "quantity": 20
+    }
+  },
+  {
+    "model": "coffee_ordering.product",
+    "pk": 11,
+    "fields": {
+      "name": "Матча лате",
+      "price": 9500,
+      "category": 2,
+      "description": "Матча з молоком",
+      "details": "300 мл",
+      "is_available": true,
+      "quantity": 15
+    }
+  },
+  {
+    "model": "coffee_ordering.product",
+    "pk": 12,
+    "fields": {
+      "name": "Чізкейк Нью-Йорк",
+      "price": 12000,
+      "category": 3,
+      "description": "Класичний чізкейк",
+      "details": "120 г",
+      "is_available": true,
+      "quantity": 12
+    }
+  },
+  {
+    "model": "coffee_ordering.product",
+    "pk": 13,
+    "fields": {
+      "name": "Круасан мигдальний",
+      "price": 7000,
+      "category": 3,
+      "description": "Свіжий круасан з мигдальним кремом",
+      "details": "90 г",
+      "is_available": true,
+      "quantity": 18
+    }
+  },
+  {
+    "model": "coffee_ordering.product",
+    "pk": 14,
+    "fields": {
+      "name": "Брауні",
+      "price": 8000,
+      "category": 3,
+      "description": "Шоколадний брауні з горіхами",
+      "details": "100 г",
+      "is_available": true,
+      "quantity": 14
+    }
+  },
+  {
+    "model": "coffee_ordering.product",
+    "pk": 15,
+    "fields": {
+      "name": "Тірамісу",
+      "price": 13000,
+      "category": 3,
+      "description": "Італійський десерт з маскарпоне",
+      "details": "130 г",
+      "is_available": true,
+      "quantity": 8
+    }
+  },
+  {
+    "model": "coffee_ordering.product",
+    "pk": 16,
+    "fields": {
+      "name": "Макарон",
+      "price": 4500,
+      "category": 3,
+      "description": "Французьке мигдальне печиво",
+      "details": "1 шт",
+      "is_available": true,
+      "quantity": 40
+    }
+  },
+  {
+    "model": "coffee_ordering.product",
+    "pk": 17,
+    "fields": {
+      "name": "Айс латте",
+      "price": 8500,
+      "category": 4,
+      "description": "Холодна кава з молоком і льодом",
+      "details": "400 мл",
+      "is_available": true,
+      "quantity": 25
+    }
+  },
+  {
+    "model": "coffee_ordering.product",
+    "pk": 18,
+    "fields": {
+      "name": "Лимонад цитрусовий",
+      "price": 7000,
+      "category": 4,
+      "description": "Домашній лимонад",
+      "details": "400 мл",
+      "is_available": true,
+      "quantity": 20
+    }
+  },
+  {
+    "model": "coffee_ordering.product",
+    "pk": 19,
+    "fields": {
+      "name": "Колд брю",
+      "price": 8000,
+      "category": 4,
+      "description": "Кава холодної екстракції",
+      "details": "300 мл",
+      "is_available": false,
+      "quantity": 0
+    }
+  },
+  {
+    "model": "coffee_ordering.product",
+    "pk": 20,
+    "fields": {
+      "name": "Гарбузовий лате",
+      "price": 9500,
+      "category": 5,
+      "description": "Осіннє меню: гарбуз і кориця",
+      "details": "300 мл",
+      "is_available": true,
+      "quantity": 20
+    }
+  },
+  {
+    "model": "coffee_ordering.product",
+    "pk": 21,
+    "fields": {
+      "name": "Глінтвейн безалкогольний",
+      "price": 9000,
+      "category": 5,
+      "description": "Гаряче вишневе спеції",
+      "details": "250 мл",
+      "is_available": true,
+      "quantity": 15
+    }
+  },
+  {
+    "model": "coffee_ordering.product",
+    "pk": 22,
+    "fields": {
+      "name": "Яблучний пиріг",
+      "price": 8500,
+      "category": 5,
+      "description": "Теплий пиріг з корицею",
+      "details": "110 г",
+      "is_available": false,
+      "quantity": 0
+    }
+  },
+  {
+    "model": "coffee_ordering.order",
+    "pk": 1,
+    "fields": {
+      "user": 5,
+      "created_at": "2026-09-15T02:59:00Z",
+      "status": "READY",
+      "total_price": 23000,
+      "handler": 3
+    }
+  },
+  {
+    "model": "coffee_ordering.order",
+    "pk": 2,
+    "fields": {
+      "user": 4,
+      "created_at": "2026-09-26T05:39:00Z",
+      "status": "IN_PROGRESS",
+      "total_price": 36300,
+      "handler": 2
+    }
+  },
+  {
+    "model": "coffee_ordering.order",
+    "pk": 3,
+    "fields": {
+      "user": 6,
+      "created_at": "2026-09-20T02:44:00Z",
+      "status": "COMPLETED",
+      "total_price": 39000,
+      "handler": 2
+    }
+  },
+  {
+    "model": "coffee_ordering.order",
+    "pk": 4,
+    "fields": {
+      "user": 7,
+      "created_at": "2026-09-29T03:42:00Z",
+      "status": "READY",
+      "total_price": 43400,
+      "handler": 3
+    }
+  },
+  {
+    "model": "coffee_ordering.order",
+    "pk": 5,
+    "fields": {
+      "user": 4,
+      "created_at": "2026-09-24T10:36:00Z",
+      "status": "CANCELED",
+      "total_price": 59000,
+      "handler": 3
+    }
+  },
+  {
+    "model": "coffee_ordering.order",
+    "pk": 6,
+    "fields": {
+      "user": 4,
+      "created_at": "2026-09-12T01:50:00Z",
+      "status": "IN_PROGRESS",
+      "total_price": 44000,
+      "handler": 2
+    }
+  },
+  {
+    "model": "coffee_ordering.order",
+    "pk": 7,
+    "fields": {
+      "user": 6,
+      "created_at": "2026-09-30T08:08:00Z",
+      "status": "NEW",
+      "total_price": 19000,
+      "handler": null
+    }
+  },
+  {
+    "model": "coffee_ordering.order",
+    "pk": 8,
+    "fields": {
+      "user": 6,
+      "created_at": "2026-09-29T08:02:00Z",
+      "status": "IN_PROGRESS",
+      "total_price": 42400,
+      "handler": 3
+    }
+  },
+  {
+    "model": "coffee_ordering.order",
+    "pk": 9,
+    "fields": {
+      "user": 5,
+      "created_at": "2026-09-24T03:26:00Z",
+      "status": "COMPLETED",
+      "total_price": 34000,
+      "handler": 3
+    }
+  },
+  {
+    "model": "coffee_ordering.order",
+    "pk": 10,
+    "fields": {
+      "user": 4,
+      "created_at": "2026-09-30T10:51:00Z",
+      "status": "COMPLETED",
+      "total_price": 31000,
+      "handler": 3
+    }
+  },
+  {
+    "model": "coffee_ordering.order",
+    "pk": 11,
+    "fields": {
+      "user": 8,
+      "created_at": "2026-09-23T03:05:00Z",
+      "status": "NEW",
+      "total_price": 24000,
+      "handler": null
+    }
+  },
+  {
+    "model": "coffee_ordering.order",
+    "pk": 12,
+    "fields": {
+      "user": 8,
+      "created_at": "2026-09-23T01:39:00Z",
+      "status": "CANCELED",
+      "total_price": 13000,
+      "handler": 2
+    }
+  },
+  {
+    "model": "coffee_ordering.order",
+    "pk": 13,
+    "fields": {
+      "user": 7,
+      "created_at": "2026-10-01T07:28:00Z",
+      "status": "COMPLETED",
+      "total_price": 41500,
+      "handler": 2
+    }
+  },
+  {
+    "model": "coffee_ordering.order",
+    "pk": 14,
+    "fields": {
+      "user": 5,
+      "created_at": "2026-09-20T09:26:00Z",
+      "status": "NEW",
+      "total_price": 18000,
+      "handler": null
+    }
+  },
+  {
+    "model": "coffee_ordering.order",
+    "pk": 15,
+    "fields": {
+      "user": 7,
+      "created_at": "2026-10-01T10:01:00Z",
+      "status": "COMPLETED",
+      "total_price": 30500,
+      "handler": 2
+    }
+  },
+  {
+    "model": "coffee_ordering.order",
+    "pk": 16,
+    "fields": {
+      "user": 7,
+      "created_at": "2026-09-29T03:11:00Z",
+      "status": "COMPLETED",
+      "total_price": 30000,
+      "handler": 3
+    }
+  },
+  {
+    "model": "coffee_ordering.orderitem",
+    "pk": 1,
+    "fields": {
+      "order": 1,
+      "product": 18,
+      "quantity": 1,
+      "price": 7000
+    }
+  },
+  {
+    "model": "coffee_ordering.orderitem",
+    "pk": 2,
+    "fields": {
+      "order": 1,
+      "product": 14,
+      "quantity": 2,
+      "price": 8000
+    }
+  },
+  {
+    "model": "coffee_ordering.orderitem",
+    "pk": 3,
+    "fields": {
+      "order": 2,
+      "product": 5,
+      "quantity": 1,
+      "price": 8500
+    }
+  },
+  {
+    "model": "coffee_ordering.orderitem",
+    "pk": 4,
+    "fields": {
+      "order": 2,
+      "product": 7,
+      "quantity": 1,
+      "price": 8800
+    }
+  },
+  {
+    "model": "coffee_ordering.orderitem",
+    "pk": 5,
+    "fields": {
+      "order": 2,
+      "product": 11,
+      "quantity": 2,
+      "price": 9500
+    }
+  },
+  {
+    "model": "coffee_ordering.orderitem",
+    "pk": 6,
+    "fields": {
+      "order": 3,
+      "product": 15,
+      "quantity": 3,
+      "price": 13000
+    }
+  },
+  {
+    "model": "coffee_ordering.orderitem",
+    "pk": 7,
+    "fields": {
+      "order": 4,
+      "product": 20,
+      "quantity": 1,
+      "price": 9500
+    }
+  },
+  {
+    "model": "coffee_ordering.orderitem",
+    "pk": 8,
+    "fields": {
+      "order": 4,
+      "product": 7,
+      "quantity": 3,
+      "price": 8800
+    }
+  },
+  {
+    "model": "coffee_ordering.orderitem",
+    "pk": 9,
+    "fields": {
+      "order": 4,
+      "product": 3,
+      "quantity": 1,
+      "price": 7500
+    }
+  },
+  {
+    "model": "coffee_ordering.orderitem",
+    "pk": 10,
+    "fields": {
+      "order": 5,
+      "product": 15,
+      "quantity": 2,
+      "price": 13000
+    }
+  },
+  {
+    "model": "coffee_ordering.orderitem",
+    "pk": 11,
+    "fields": {
+      "order": 5,
+      "product": 12,
+      "quantity": 2,
+      "price": 12000
+    }
+  },
+  {
+    "model": "coffee_ordering.orderitem",
+    "pk": 12,
+    "fields": {
+      "order": 5,
+      "product": 6,
+      "quantity": 1,
+      "price": 9000
+    }
+  },
+  {
+    "model": "coffee_ordering.orderitem",
+    "pk": 13,
+    "fields": {
+      "order": 6,
+      "product": 6,
+      "quantity": 2,
+      "price": 9000
+    }
+  },
+  {
+    "model": "coffee_ordering.orderitem",
+    "pk": 14,
+    "fields": {
+      "order": 6,
+      "product": 15,
+      "quantity": 2,
+      "price": 13000
+    }
+  },
+  {
+    "model": "coffee_ordering.orderitem",
+    "pk": 15,
+    "fields": {
+      "order": 7,
+      "product": 11,
+      "quantity": 2,
+      "price": 9500
+    }
+  },
+  {
+    "model": "coffee_ordering.orderitem",
+    "pk": 16,
+    "fields": {
+      "order": 8,
+      "product": 7,
+      "quantity": 3,
+      "price": 8800
+    }
+  },
+  {
+    "model": "coffee_ordering.orderitem",
+    "pk": 17,
+    "fields": {
+      "order": 8,
+      "product": 16,
+      "quantity": 2,
+      "price": 4500
+    }
+  },
+  {
+    "model": "coffee_ordering.orderitem",
+    "pk": 18,
+    "fields": {
+      "order": 8,
+      "product": 13,
+      "quantity": 1,
+      "price": 7000
+    }
+  },
+  {
+    "model": "coffee_ordering.orderitem",
+    "pk": 19,
+    "fields": {
+      "order": 9,
+      "product": 20,
+      "quantity": 2,
+      "price": 9500
+    }
+  },
+  {
+    "model": "coffee_ordering.orderitem",
+    "pk": 20,
+    "fields": {
+      "order": 9,
+      "product": 14,
+      "quantity": 1,
+      "price": 8000
+    }
+  },
+  {
+    "model": "coffee_ordering.orderitem",
+    "pk": 21,
+    "fields": {
+      "order": 9,
+      "product": 13,
+      "quantity": 1,
+      "price": 7000
+    }
+  },
+  {
+    "model": "coffee_ordering.orderitem",
+    "pk": 22,
+    "fields": {
+      "order": 10,
+      "product": 14,
+      "quantity": 2,
+      "price": 8000
+    }
+  },
+  {
+    "model": "coffee_ordering.orderitem",
+    "pk": 23,
+    "fields": {
+      "order": 10,
+      "product": 3,
+      "quantity": 2,
+      "price": 7500
+    }
+  },
+  {
+    "model": "coffee_ordering.orderitem",
+    "pk": 24,
+    "fields": {
+      "order": 11,
+      "product": 4,
+      "quantity": 3,
+      "price": 8000
+    }
+  },
+  {
+    "model": "coffee_ordering.orderitem",
+    "pk": 25,
+    "fields": {
+      "order": 12,
+      "product": 10,
+      "quantity": 2,
+      "price": 6500
+    }
+  },
+  {
+    "model": "coffee_ordering.orderitem",
+    "pk": 26,
+    "fields": {
+      "order": 13,
+      "product": 17,
+      "quantity": 3,
+      "price": 8500
+    }
+  },
+  {
+    "model": "coffee_ordering.orderitem",
+    "pk": 27,
+    "fields": {
+      "order": 13,
+      "product": 4,
+      "quantity": 2,
+      "price": 8000
+    }
+  },
+  {
+    "model": "coffee_ordering.orderitem",
+    "pk": 28,
+    "fields": {
+      "order": 14,
+      "product": 21,
+      "quantity": 2,
+      "price": 9000
+    }
+  },
+  {
+    "model": "coffee_ordering.orderitem",
+    "pk": 29,
+    "fields": {
+      "order": 15,
+      "product": 10,
+      "quantity": 1,
+      "price": 6500
+    }
+  },
+  {
+    "model": "coffee_ordering.orderitem",
+    "pk": 30,
+    "fields": {
+      "order": 15,
+      "product": 8,
+      "quantity": 3,
+      "price": 6000
+    }
+  },
+  {
+    "model": "coffee_ordering.orderitem",
+    "pk": 31,
+    "fields": {
+      "order": 15,
+      "product": 2,
+      "quantity": 1,
+      "price": 6000
+    }
+  },
+  {
+    "model": "coffee_ordering.orderitem",
+    "pk": 32,
+    "fields": {
+      "order": 16,
+      "product": 5,
+      "quantity": 3,
+      "price": 8500
+    }
+  },
+  {
+    "model": "coffee_ordering.orderitem",
+    "pk": 33,
+    "fields": {
+      "order": 16,
+      "product": 16,
+      "quantity": 1,
+      "price": 4500
+    }
+  },
+  {
+    "model": "coffee_ordering.cart",
+    "pk": 1,
+    "fields": {
+      "user": 4,
+      "created_at": "2026-09-30T10:00:00Z",
+      "updated_at": "2026-09-30T11:00:00Z"
+    }
+  },
+  {
+    "model": "coffee_ordering.cart",
+    "pk": 2,
+    "fields": {
+      "user": 5,
+      "created_at": "2026-09-29T10:00:00Z",
+      "updated_at": "2026-09-29T11:00:00Z"
+    }
+  },
+  {
+    "model": "coffee_ordering.cart",
+    "pk": 3,
+    "fields": {
+      "user": 6,
+      "created_at": "2026-09-28T10:00:00Z",
+      "updated_at": "2026-09-28T11:00:00Z"
+    }
+  },
+  {
+    "model": "coffee_ordering.cart",
+    "pk": 4,
+    "fields": {
+      "user": 8,
+      "created_at": "2026-09-27T10:00:00Z",
+      "updated_at": "2026-09-27T11:00:00Z"
+    }
+  },
+  {
+    "model": "coffee_ordering.cartitem",
+    "pk": 1,
+    "fields": {
+      "cart": 1,
+      "product": 21,
+      "quantity": 3
+    }
+  },
+  {
+    "model": "coffee_ordering.cartitem",
+    "pk": 2,
+    "fields": {
+      "cart": 1,
+      "product": 14,
+      "quantity": 3
+    }
+  },
+  {
+    "model": "coffee_ordering.cartitem",
+    "pk": 3,
+    "fields": {
+      "cart": 1,
+      "product": 7,
+      "quantity": 3
+    }
+  },
+  {
+    "model": "coffee_ordering.cartitem",
+    "pk": 4,
+    "fields": {
+      "cart": 2,
+      "product": 10,
+      "quantity": 2
+    }
+  },
+  {
+    "model": "coffee_ordering.cartitem",
+    "pk": 5,
+    "fields": {
+      "cart": 3,
+      "product": 12,
+      "quantity": 2
+    }
+  },
+  {
+    "model": "coffee_ordering.cartitem",
+    "pk": 6,
+    "fields": {
+      "cart": 3,
+      "product": 15,
+      "quantity": 1
+    }
+  },
+  {
+    "model": "coffee_ordering.cartitem",
+    "pk": 7,
+    "fields": {
+      "cart": 3,
+      "product": 17,
+      "quantity": 1
+    }
+  },
+  {
+    "model": "coffee_ordering.cartitem",
+    "pk": 8,
+    "fields": {
+      "cart": 4,
+      "product": 3,
+      "quantity": 2
+    }
+  },
+  {
+    "model": "coffee_ordering.product",
+    "pk": 23,
+    "fields": {
+      "name": "Рістретто",
+      "price": 5000,
+      "category": 1,
+      "description": "Концентрований та насичений ковток кави",
+      "details": "15 мл, арабіка 100%",
+      "is_available": true,
+      "quantity": 45
+    }
+  },
+  {
+    "model": "coffee_ordering.product",
+    "pk": 24,
+    "fields": {
+      "name": "Лунго",
+      "price": 6000,
+      "category": 1,
+      "description": "Еспресо довгої екстракції",
+      "details": "60 мл",
+      "is_available": true,
+      "quantity": 30
+    }
+  },
+  {
+    "model": "coffee_ordering.product",
+    "pk": 25,
+    "fields": {
+      "name": "Айриш кава",
+      "price": 11000,
+      "category": 1,
+      "description": "Гаряча кава з безалкогольним лікером та вершками",
+      "details": "200 мл",
+      "is_available": true,
+      "quantity": 15
+    }
+  },
+  {
+    "model": "coffee_ordering.product",
+    "pk": 26,
+    "fields": {
+      "name": "Раф Лаванда",
+      "price": 9500,
+      "category": 1,
+      "description": "Ніжний вершковий кавовий напій з нотками лаванди",
+      "details": "300 мл",
+      "is_available": true,
+      "quantity": 20
+    }
+  },
+  {
+    "model": "coffee_ordering.product",
+    "pk": 27,
+    "fields": {
+      "name": "Гласе",
+      "price": 8500,
+      "category": 1,
+      "description": "Еспресо з кулькою ванільного морозива",
+      "details": "180 мл",
+      "is_available": true,
+      "quantity": 18
+    }
+  },
+  {
+    "model": "coffee_ordering.product",
+    "pk": 28,
+    "fields": {
+      "name": "Макіато",
+      "price": 6500,
+      "category": 1,
+      "description": "Еспресо з краплею збитого молока",
+      "details": "50 мл",
+      "is_available": true,
+      "quantity": 35
+    }
+  },
+  {
+    "model": "coffee_ordering.product",
+    "pk": 29,
+    "fields": {
+      "name": "Чай Улун Те Ґуань Інь",
+      "price": 7500,
+      "category": 2,
+      "description": "Світлий китайський улун з квітковим ароматом",
+      "details": "400 мл чайник",
+      "is_available": true,
+      "quantity": 25
+    }
+  },
+  {
+    "model": "coffee_ordering.product",
+    "pk": 30,
+    "fields": {
+      "name": "Чай Пуер",
+      "price": 8000,
+      "category": 2,
+      "description": "Витриманий ферментований чорний чай",
+      "details": "400 мл чайник",
+      "is_available": true,
+      "quantity": 20
+    }
+  },
+  {
+    "model": "coffee_ordering.product",
+    "pk": 31,
+    "fields": {
+      "name": "Чай Обліпиховий з імбиром",
+      "price": 8500,
+      "category": 2,
+      "description": "Натуральний зігріваючий фруктово-ягідний чай",
+      "details": "500 мл чайник",
+      "is_available": true,
+      "quantity": 30
+    }
+  },
+  {
+    "model": "coffee_ordering.product",
+    "pk": 32,
+    "fields": {
+      "name": "Ройбуш Суниця-Крем",
+      "price": 6500,
+      "category": 2,
+      "description": "Південноафриканський безкофеїновий чай",
+      "details": "400 мл чайник",
+      "is_available": true,
+      "quantity": 22
+    }
+  },
+  {
+    "model": "coffee_ordering.product",
+    "pk": 33,
+    "fields": {
+      "name": "Профітролі з кремом",
+      "price": 7500,
+      "category": 3,
+      "description": "Заварні тістечка з ніжним заварним кремом",
+      "details": "120 г (3 шт)",
+      "is_available": true,
+      "quantity": 16
+    }
+  },
+  {
+    "model": "coffee_ordering.product",
+    "pk": 34,
+    "fields": {
+      "name": "Еклер Шоколадний",
+      "price": 6500,
+      "category": 3,
+      "description": "Класичний еклер з темним шоколадом",
+      "details": "80 г",
+      "is_available": true,
+      "quantity": 25
+    }
+  },
+  {
+    "model": "coffee_ordering.product",
+    "pk": 35,
+    "fields": {
+      "name": "Тарт з малиною",
+      "price": 10500,
+      "category": 3,
+      "description": "Пісочний тарт із заварним кремом та свіжою малиною",
+      "details": "110 г",
+      "is_available": true,
+      "quantity": 10
+    }
+  },
+  {
+    "model": "coffee_ordering.product",
+    "pk": 36,
+    "fields": {
+      "name": "Синнабон з корицею",
+      "price": 8500,
+      "category": 3,
+      "description": "Ароматна булочка з корицею та вершковою глазур'ю",
+      "details": "150 г",
+      "is_available": true,
+      "quantity": 14
+    }
+  },
+  {
+    "model": "coffee_ordering.product",
+    "pk": 37,
+    "fields": {
+      "name": "Морквяний торт",
+      "price": 9500,
+      "category": 3,
+      "description": "Пряний бісквіт з морквою, горіхами та крем-чизом",
+      "details": "140 г",
+      "is_available": false,
+      "quantity": 0
+    }
+  },
+  {
+    "model": "coffee_ordering.product",
+    "pk": 38,
+    "fields": {
+      "name": "Шоколадний фондю-кекс",
+      "price": 11500,
+      "category": 3,
+      "description": "Тортик з рідкою шоколадною начинкою всередині",
+      "details": "100 г",
+      "is_available": true,
+      "quantity": 12
+    }
+  },
+  {
+    "model": "coffee_ordering.product",
+    "pk": 39,
+    "fields": {
+      "name": "Еспресо-тонік",
+      "price": 9000,
+      "category": 4,
+      "description": "Освіжаючий мікс тоніка, еспресо та льоду з часточкою лайма",
+      "details": "350 мл",
+      "is_available": true,
+      "quantity": 30
+    }
+  },
+  {
+    "model": "coffee_ordering.product",
+    "pk": 40,
+    "fields": {
+      "name": "Шмель (Bumblebee)",
+      "price": 9500,
+      "category": 4,
+      "description": "Шарований напій з апельсинового соку, карамельного сиропу та еспресо",
+      "details": "350 мл",
+      "is_available": true,
+      "quantity": 25
+    }
+  },
+  {
+    "model": "coffee_ordering.product",
+    "pk": 41,
+    "fields": {
+      "name": "Лимонад Полуниця-Базилік",
+      "price": 8000,
+      "category": 4,
+      "description": "Авторський лимонад зі свіжою полуницею та базиліком",
+      "details": "400 мл",
+      "is_available": true,
+      "quantity": 20
+    }
+  },
+  {
+    "model": "coffee_ordering.product",
+    "pk": 42,
+    "fields": {
+      "name": "Молочний коктейль Ванільний",
+      "price": 7500,
+      "category": 4,
+      "description": "Густий молочний мікшейк з натуральною ваніллю",
+      "details": "400 мл",
+      "is_available": true,
+      "quantity": 15
+    }
+  },
+  {
+    "model": "coffee_ordering.product",
+    "pk": 43,
+    "fields": {
+      "name": "Айс Матча Тонік",
+      "price": 10000,
+      "category": 4,
+      "description": "Японська матча з тоніком та льодом",
+      "details": "350 мл",
+      "is_available": false,
+      "quantity": 0
+    }
+  },
+  {
+    "model": "coffee_ordering.product",
+    "pk": 44,
+    "fields": {
+      "name": "Лате Кленовий Пекан",
+      "price": 9800,
+      "category": 5,
+      "description": "Затишна кава з кленовим сиропом та смаженим горіхом пекан",
+      "details": "300 мл",
+      "is_available": true,
+      "quantity": 22
+    }
+  },
+  {
+    "model": "coffee_ordering.product",
+    "pk": 45,
+    "fields": {
+      "name": "Какао з маршмелоу",
+      "price": 7500,
+      "category": 5,
+      "description": "Насичений гарячий шоколадний напій з міні-маршмелоу",
+      "details": "300 мл",
+      "is_available": true,
+      "quantity": 35
+    }
+  },
+  {
+    "model": "coffee_ordering.product",
+    "pk": 46,
+    "fields": {
+      "name": "Імбирно-Цитрусовий збитень",
+      "price": 8500,
+      "category": 5,
+      "description": "Гарячий напій на основі меду, імбиру та спецій",
+      "details": "300 мл",
+      "is_available": true,
+      "quantity": 18
+    }
+  },
+  {
+    "model": "coffee_ordering.product",
+    "pk": 47,
+    "fields": {
+      "name": "Грушевий тарт з корицею",
+      "price": 9000,
+      "category": 5,
+      "description": "Осінній десерт з карамелізованою грушею",
+      "details": "120 г",
+      "is_available": true,
+      "quantity": 12
+    }
+  }
+]

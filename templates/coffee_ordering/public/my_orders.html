@@ -1,0 +1,23 @@
+{% extends "coffee_ordering/public/../index.html" %}
+{% block title %}Мої замовлення{% endblock %}
+{% block content %}
+<h1 class="mb-3">Мої замовлення</h1>
+
+<div class="list-group shadow-sm">
+  {% for order in orders %}
+    <a href="{% url 'coffee_ordering:order_detail' order.id %}"
+       class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+      <span>
+        <strong>#{{ order.id }}</strong>
+        <span class="text-muted ms-2">{{ order.created_at|date:"d.m.Y H:i" }}</span>
+      </span>
+      <span>
+        {% include "coffee_ordering/public/../../includes/_status_badge.html" %}
+        <span class="ms-3">{{ order.total_price_uah }} UAH.</span>
+      </span>
+    </a>
+  {% empty %}
+    <div class="list-group-item">Замовлень ще немає.</div>
+  {% endfor %}
+</div>
+{% endblock %}

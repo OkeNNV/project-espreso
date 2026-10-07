@@ -1,0 +1,55 @@
+{% extends "coffee_ordering/public/../index.html" %}
+{% block title %}Кошик{% endblock %}
+{% block content %}
+<h1 class="mb-3">Кошик</h1>
+
+{% if items %}
+  <div class="table-responsive">
+    <table class="table table-striped align-middle bg-white">
+      <thead>
+        <tr><th>Товар</th><th>Ціна</th><th style="width:220px">Кількість</th><th>Сума</th><th></th></tr>
+      </thead>
+      <tbody>
+        {% for item in items %}
+          <tr>
+            <td>{{ item.product.name }}</td>
+            <td>{{ item.product.price_uah }}</td>
+            <td>
+              <form method="post" action="{% url 'coffee_ordering:cart_update' item.product.id %}" class="input-group input-group-sm">
+                {% csrf_token %}
+                <input type="number" name="quantity" value="{{ item.quantity }}" min="0" class="form-control">
+                <button class="btn btn-outline-secondary">Оновити</button>
+              </form>
+            </td>
+            <td>{{ item.get_cost_uah }}</td>
+            <td>
+              <form method="post" action="{% url 'coffee_ordering:cart_remove' item.product.id %}">
+                {% csrf_token %}
+                <button class="btn btn-outline-danger btn-sm">✕</button>
+              </form>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="d-flex justify-content-between align-items-center">
+    <form method="post" action="{% url 'coffee_ordering:cart_clear' %}">
+      {% csrf_token %}
+      <button class="btn btn-outline-secondary">Очистити кошик</button>
+    </form>
+    <div class="d-flex align-items-center gap-3">
+      <span class="fs-5 fw-bold">Разом: {{ total_price }} UAH.</span>
+      <form method="post" action="{% url 'coffee_ordering:checkout' %}">
+        {% csrf_token %}
+        <button class="btn btn-success btn-lg">Оформити замовлення</button>
+      </form>
+    </div>
+  </div>
+{% else %}
+  <div class="alert alert-info">
+    Кошик порожній. <a href="{% url 'coffee_ordering:menu' %}" class="alert-link">До меню</a>
+  </div>
+{% endif %}
+{% endblock %}

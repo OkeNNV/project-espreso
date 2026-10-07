@@ -1,0 +1,52 @@
+{% extends "coffee_ordering/public/../index.html" %}
+{% block title %}Товари{% endblock %}
+{% block content %}
+  <h1 class="mb-3">Керування товарами</h1>
+
+  <div class="table-responsive">
+    <table class="table table-striped align-middle bg-white">
+      <thead>
+      <tr>
+        <th>Товар</th>
+        <th>Категорія</th>
+        <th>Ціна</th>
+        <th>Доступність</th>
+        <th style="width:220px">Залишок</th>
+      </tr>
+      </thead>
+      <tbody>
+      {% for p in products %}
+        <tr>
+          <td>{{ p.name }}</td>
+          <td>{{ p.category.name }}</td>
+          <td>{{ p.price }}</td>
+          <td>
+            <form method="post" action="{% url 'coffee_ordering:staff_product_availability' p.id %}"
+                  class="d-flex align-items-center gap-2">
+              {% csrf_token %}
+              {% if p.is_available %}
+                <input type="hidden" name="is_available" value="0">
+                <span class="badge text-bg-success">Так</span>
+                <button class="btn btn-sm btn-outline-secondary">Вимкнути</button>
+              {% else %}
+                <input type="hidden" name="is_available" value="1">
+                <span class="badge text-bg-secondary">Ні</span>
+                <button class="btn btn-sm btn-outline-success">Увімкнути</button>
+              {% endif %}
+            </form>
+          </td>
+          <td>
+            <form method="post" action="{% url 'coffee_ordering:staff_product_stock' p.id %}"
+                  class="input-group input-group-sm">
+              {% csrf_token %}
+              <input type="number" name="quantity" value="{{ p.quantity }}" min="0" class="form-control">
+              <button class="btn btn-outline-primary">Зберегти</button>
+            </form>
+          </td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    {% include "includes/_pagination.html" with page_obj=products %}
+  </div>
+{% endblock %}

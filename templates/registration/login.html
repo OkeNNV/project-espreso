@@ -1,0 +1,33 @@
+{% extends "coffee_ordering/index.html" %}
+{% block title %}Вхід{% endblock %}
+{% block content %}
+  <div class="row justify-content-center">
+    <div class="col-md-5">
+      <div class="card shadow-sm">
+        <div class="card-header"><h1 class="h4 mb-0">Вхід</h1></div>
+        <div class="card-body">
+          {% if form.errors %}
+            <div class="alert alert-danger">Невірне ім'я користувача або пароль, або акаунт не активовано.</div>
+          {% endif %}
+          <form method="post" action="{% url 'login' %}">
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{{ next }}">
+            <div class="mb-3">
+              <label for="id_username" class="form-label">Ім'я користувача</label>
+              <input type="text" name="username" id="id_username" class="form-control"
+                     value="{{ form.username.value|default:'' }}" required autofocus>
+            </div>
+            <div class="mb-3">
+              <label for="id_password" class="form-label">Пароль</label>
+              <input type="password" name="password" id="id_password" class="form-control" required>
+            </div>
+            <button class="btn btn-primary w-100">Увійти</button>
+          </form>
+        </div>
+        <div class="card-footer text-center">
+          <small>Немає акаунта? <a href="{% url 'coffee_ordering:register' %}">Зареєструватися</a></small>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

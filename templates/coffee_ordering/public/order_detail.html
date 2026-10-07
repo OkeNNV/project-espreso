@@ -1,0 +1,30 @@
+{% extends "coffee_ordering/public/../index.html" %}
+{% block title %}Замовлення #{{ order.id }}{% endblock %}
+{% block content %}
+<div class="card shadow-sm">
+  <div class="card-header d-flex justify-content-between align-items-center">
+    <h1 class="h4 mb-0">Замовлення #{{ order.id }}</h1>
+    {% include "coffee_ordering/public/../../includes/_status_badge.html" %}
+  </div>
+  <ul class="list-group list-group-flush">
+    {% for item in items %}
+      <li class="list-group-item d-flex justify-content-between">
+        <span>{{ item.quantity }} × {{ item.product.name }}</span>
+        <span>{{ item.price_uah }} UAH.</span>
+      </li>
+    {% endfor %}
+  </ul>
+  <div class="card-footer d-flex justify-content-between align-items-center">
+    <div>
+      <div class="fw-bold">Разом: {{ order.total_price_uah }} UAH.</div>
+      <small class="text-muted">{{ order.created_at|date:"d.m.Y H:i" }}</small>
+    </div>
+    {% if order.status != 'COMPLETED' and order.status != 'CANCELED' %}
+      <form method="post" action="{% url 'coffee_ordering:order_cancel' order.id %}">
+        {% csrf_token %}
+        <button class="btn btn-outline-danger">Скасувати</button>
+      </form>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

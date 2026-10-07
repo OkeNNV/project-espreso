@@ -1,0 +1,42 @@
+{% extends "coffee_ordering/public/../index.html" %}
+{% block title %}{{ product.name }}{% endblock %}
+{% block content %}
+<a href="{% url 'coffee_ordering:menu' %}?category={{ product.category.slug }}" class="btn btn-link px-0 mb-2">
+  ← {{ product.category.name }}
+</a>
+
+<div class="card shadow-sm">
+  <div class="card-header d-flex justify-content-between align-items-center">
+    <h1 class="h4 mb-0">{{ product.name }}</h1>
+    <span class="badge bg-secondary">{{ product.category.name }}</span>
+  </div>
+  <div class="card-body">
+    {% if not product.is_available or product.quantity <= 0 %}
+      <div class="alert alert-warning">Товар прихований від клієнтів.</div>
+    {% endif %}
+
+    {% if product.description %}
+      <p class="card-text">{{ product.description }}</p>
+    {% endif %}
+    {% if product.details %}
+      <p class="card-text text-muted small">{{ product.details }}</p>
+    {% endif %}
+
+    <div class="d-flex justify-content-between">
+      <span class="fw-bold">{{ product.price_uah }} UAH.</span>
+      <small class="text-muted">В наявності: {{ product.quantity }} шт.</small>
+    </div>
+  </div>
+  {% if product.is_available and product.quantity > 0 %}
+    <div class="card-footer">
+      <form method="post" action="{% url 'coffee_ordering:cart_add' product.id %}" class="d-flex gap-2">
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{{ request.get_full_path }}">
+        <input type="number" name="quantity" value="1" min="1" max="{{ product.quantity }}"
+               class="form-control" style="max-width: 6rem;">
+        <button class="btn btn-primary">До кошика</button>
+      </form>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}
